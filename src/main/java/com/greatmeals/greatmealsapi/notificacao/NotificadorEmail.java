@@ -1,10 +1,10 @@
 package com.greatmeals.greatmealsapi.notificacao;
 
 import com.greatmeals.greatmealsapi.modelo.Cliente;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Primary
+@Qualifier("normal")
 @Component
 public class NotificadorEmail implements Notificador {
 
