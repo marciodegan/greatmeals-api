@@ -1,10 +1,10 @@
 package com.greatmeals.greatmealsapi.notificacao;
 
 import com.greatmeals.greatmealsapi.modelo.Cliente;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Qualifier("urgente")
+
+@TipoDoNotificador(NivelUrgencia.URGENTE)
 @Component
 public class NotificadorSMS implements Notificador {
 

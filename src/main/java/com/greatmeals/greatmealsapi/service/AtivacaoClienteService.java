@@ -1,15 +1,16 @@
 package com.greatmeals.greatmealsapi.service;
 
 import com.greatmeals.greatmealsapi.modelo.Cliente;
+import com.greatmeals.greatmealsapi.notificacao.NivelUrgencia;
 import com.greatmeals.greatmealsapi.notificacao.Notificador;
+import com.greatmeals.greatmealsapi.notificacao.TipoDoNotificador;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AtivacaoClienteService {
 
-    @Qualifier("urgente")
+    @TipoDoNotificador(NivelUrgencia.SEM_URGENCIA)
     @Autowired
     private Notificador notificador;
 
