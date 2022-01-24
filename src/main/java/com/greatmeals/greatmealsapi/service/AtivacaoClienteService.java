@@ -7,6 +7,9 @@ import com.greatmeals.greatmealsapi.notificacao.TipoDoNotificador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 @Component
 public class AtivacaoClienteService {
 
@@ -14,6 +17,15 @@ public class AtivacaoClienteService {
     @Autowired
     private Notificador notificador;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("INIT");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Destroy");
+    }
     public void ativar(Cliente cliente) {
         cliente.ativar();
 
