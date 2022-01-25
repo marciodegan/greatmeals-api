@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.jpa;
 
 import com.greatmeals.greatmealsapi.GreatmealsApiApplication;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
+import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -13,13 +14,13 @@ public class AlteracaoCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhas = applicationContext.getBean(CozinhaRepository.class);
 
         Cozinha cozinha = new Cozinha();
         cozinha.setId(1L);
         cozinha.setNome("Árabe");
 
-        cadastroCozinha.salvar(cozinha);
+        cozinhas.adicionar(cozinha);
 
 
     }

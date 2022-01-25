@@ -2,11 +2,10 @@ package com.greatmeals.greatmealsapi.jpa;
 
 import com.greatmeals.greatmealsapi.GreatmealsApiApplication;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
+import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
-
-import java.util.List;
 
 public class BuscaCozinhaMain {
 
@@ -15,9 +14,9 @@ public class BuscaCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhas = applicationContext.getBean(CozinhaRepository.class);
 
-        Cozinha cozinha = cadastroCozinha.buscar(1L);
+        Cozinha cozinha = cozinhas.porId(1L);
 
         System.out.println(cozinha.getNome());
     }

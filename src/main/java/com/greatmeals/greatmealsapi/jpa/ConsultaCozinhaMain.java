@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.jpa;
 
 import com.greatmeals.greatmealsapi.GreatmealsApiApplication;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
+import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -15,11 +16,11 @@ public class ConsultaCozinhaMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhas = applicationContext.getBean(CozinhaRepository.class);
 
-        List<Cozinha> cozinhas = cadastroCozinha.listar();
+        List<Cozinha> todasCozinhas = cozinhas.todas();
 
-        for (Cozinha cozinha : cozinhas) {
+        for (Cozinha cozinha : todasCozinhas) {
             System.out.println(cozinha.getNome());
         }
     }
