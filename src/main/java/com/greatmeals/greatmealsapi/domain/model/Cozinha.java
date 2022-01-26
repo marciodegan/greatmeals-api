@@ -2,10 +2,12 @@ package com.greatmeals.greatmealsapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@JsonRootName("cozinha")
 @Entity
 @Table(name = "cozinha")
 public class Cozinha {
@@ -14,7 +16,7 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
+    @JsonProperty("titulo")
     @Column(nullable = false)
     private String nome;
 
