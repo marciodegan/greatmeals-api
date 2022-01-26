@@ -4,8 +4,10 @@ import com.greatmeals.greatmealsapi.api.model.CozinhasXmlWrapper;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +29,16 @@ public class CozinhaController {
         return new CozinhasXmlWrapper(cozinhaRepository.todas());
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{cozinhaId}")
-    public Cozinha buscar(@PathVariable("cozinhaId") Long id) {
-        return cozinhaRepository.porId(id);
+    public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
+        Cozinha cozinha = cozinhaRepository.porId(id);
+        // return ResponseEntity.status(HttpStatus.OK).body(cozinha);
+        // return ResponseEntity.ok(cozinha);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .headers(headers)
+                .build();
     }
 }
