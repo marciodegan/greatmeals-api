@@ -17,6 +17,7 @@ public class Restaurante {
     private BigDecimal taxaFrete;
 
     @ManyToOne
+    @JoinColumn(name = "cozinha_codigo")
     private Cozinha cozinha;
 
     public Long getId() {
@@ -42,6 +43,7 @@ public class Restaurante {
     public void setTaxaFrete(BigDecimal taxaFrete) {
         this.taxaFrete = taxaFrete;
     }
+
 
     public Cozinha getCozinha() {
         return cozinha;
