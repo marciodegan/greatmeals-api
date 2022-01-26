@@ -16,6 +16,9 @@ public class Restaurante {
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
+    @ManyToOne
+    private Cozinha cozinha;
+
     public Long getId() {
         return id;
     }
@@ -38,6 +41,10 @@ public class Restaurante {
 
     public void setTaxaFrete(BigDecimal taxaFrete) {
         this.taxaFrete = taxaFrete;
+    }
+
+    public Cozinha getCozinha() {
+        return cozinha;
     }
 
     @Override
