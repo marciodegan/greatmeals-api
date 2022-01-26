@@ -11,14 +11,19 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
 
-    @Column(name = "taxa_frete")
+    @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
     @ManyToOne
-    @JoinColumn(name = "cozinha_codigo")
+    @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
+
+    @ManyToOne
+    @JoinColumn(name = "forma_pagamento_id", nullable = false)
+    private FormaPagamento formaPagamento;
 
     public Long getId() {
         return id;
@@ -47,6 +52,18 @@ public class Restaurante {
 
     public Cozinha getCozinha() {
         return cozinha;
+    }
+
+    public void setCozinha(Cozinha cozinha) {
+        this.cozinha = cozinha;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     @Override
