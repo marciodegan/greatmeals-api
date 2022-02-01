@@ -1,13 +1,9 @@
 package com.greatmeals.greatmealsapi.domain.repository;
 
 import com.greatmeals.greatmealsapi.domain.model.Estado;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 
-public interface EstadoRepository {
+public interface EstadoRepository extends JpaRepository <Estado, Long> {
 
-    List<Estado> todos();
-    Estado porId(Long id);
-    Estado adicionar(Estado estado);
-    void remover(Long id);
 }
