@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.infrastructure;
 
+import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.model.Estado;
 import com.greatmeals.greatmealsapi.domain.repository.EstadoRepository;
 import org.springframework.stereotype.Component;
@@ -34,8 +35,7 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Transactional
     @Override
-    public void remover(Estado estado) {
-        estado = porId(estado.getId());
-        manager.remove(estado);
+    public void remover(Long id) {
+        manager.remove(porId(id));
     }
 }

@@ -3,10 +3,10 @@ package com.greatmeals.greatmealsapi.api.controller;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.model.Estado;
 import com.greatmeals.greatmealsapi.domain.repository.EstadoRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.greatmeals.greatmealsapi.domain.service.EstadoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +16,11 @@ public class EstadoController {
 
     private EstadoRepository estadoRepository;
 
-    public EstadoController(EstadoRepository estadoRepository) {
+    private EstadoService estadoService;
+
+    public EstadoController(EstadoRepository estadoRepository, EstadoService estadoService) {
         this.estadoRepository = estadoRepository;
+        this.estadoService = estadoService;
     }
 
     @GetMapping
@@ -28,5 +31,11 @@ public class EstadoController {
     @GetMapping("/{estadoId}")
     public Estado buscar(@PathVariable Long estadoId) {
         return estadoRepository.porId(estadoId);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Estado> adicionar(@RequestBody Estado estado) {
+        return ResponseEntity.ok(estadoService.salvar(estado));
     }
 }
