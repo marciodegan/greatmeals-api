@@ -14,6 +14,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestauranteService {
@@ -29,14 +30,12 @@ public class RestauranteService {
 
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.porId(cozinhaId);
+        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
         Long formaPagamentoId = restaurante.getFormaPagamento().getId();
         FormaPagamento formaPagamento = formaPagamentoRepository.porId(formaPagamentoId);
 
-        if(cozinha == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cozinha com o codigo %d", cozinhaId));
-        }
         if(formaPagamento == null) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe forma de pagamento com o codigo %d", formaPagamentoId));

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,22 +27,21 @@ public class CozinhaController {
 
     @GetMapping
     public List<Cozinha> listar() {
-        return cozinhaRepository.todas();
+        return cozinhaRepository.findAll();
     }
 
-    @GetMapping("/por-nome")
-    public List<Cozinha> cozinhasPorNome(@RequestParam("nome") String nome) {
-        return cozinhaRepository.consultarPorNome(nome);
-    }
+//    @GetMapping("/por-nome")
+//    public List<Cozinha> cozinhasPorNome(@RequestParam("nome") String nome) {
+//        return cozinhaRepository.consultarPorNome(nome);
+//    }
 
     @GetMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
-        Cozinha cozinha = cozinhaRepository.porId(id);
+        Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
-        if (cozinha != null) {
-            return ResponseEntity.ok(cozinha);
+        if (cozinha.isPresent()) {
+            return ResponseEntity.ok(cozinha.get());
         }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.notFound().build();
     }
 
@@ -53,12 +53,11 @@ public class CozinhaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-        Cozinha cozinhaEncontrada = cozinhaRepository.porId(id);
+        Optional<Cozinha> cozinhaEncontrada = cozinhaRepository.findById(id);
 
-        if (cozinhaEncontrada != null) {
-            // cozinhaEncontrada.setNome(cozinha.getNome());
-            BeanUtils.copyProperties(cozinha, cozinhaEncontrada, "id");
-            return ResponseEntity.ok(cozinhaRepository.adicionar(cozinhaEncontrada));
+        if (cozinhaEncontrada.isPresent()) {
+            BeanUtils.copyProperties(cozinha, cozinhaEncontrada.get(), "id");
+            return ResponseEntity.ok(cadastroCozinhaService.salvar(cozinhaEncontrada.get()));
         }
         return ResponseEntity.notFound().build();
     }

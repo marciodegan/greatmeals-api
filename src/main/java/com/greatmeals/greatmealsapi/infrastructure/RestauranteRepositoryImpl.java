@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.infrastructure;
 
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,9 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
     @Override
     public void remover(Long id) {
         Restaurante restaurante = porId(id);
+        if(restaurante == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(restaurante);
     }
 }
