@@ -1,13 +1,10 @@
 package com.greatmeals.greatmealsapi.domain.repository;
 
 import com.greatmeals.greatmealsapi.domain.model.FormaPagamento;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 
-public interface FormaPagamentoRepository {
+public interface FormaPagamentoRepository extends JpaRepository<FormaPagamento, Long> {
 
-    List<FormaPagamento> todas();
-    FormaPagamento porId(Long id);
-    FormaPagamento adicionar(FormaPagamento formaPagamento);
-    void remover(Long id);
+
 }
