@@ -13,8 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RestauranteService {
@@ -43,20 +41,12 @@ public class RestauranteService {
         restaurante.setCozinha(cozinha);
         restaurante.setFormaPagamento(formaPagamento);
 
-        return restauranteRepository.adicionar(restaurante);
-    }
-
-    public List<Restaurante> listar() {
-        return restauranteRepository.todos();
-    };
-
-    public Restaurante porId(Long id) {
-        return restauranteRepository.porId(id);
+        return restauranteRepository.save(restaurante);
     }
 
     public void remover(Long id) {
         try {
-            restauranteRepository.remover(id);
+            restauranteRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format("Restaurante não foi encontrado com o número" + id));
 
