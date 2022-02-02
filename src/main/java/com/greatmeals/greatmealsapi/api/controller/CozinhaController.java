@@ -30,10 +30,15 @@ public class CozinhaController {
         return cozinhaRepository.findAll();
     }
 
-//    @GetMapping("/por-nome")
-//    public List<Cozinha> cozinhasPorNome(@RequestParam("nome") String nome) {
-//        return cozinhaRepository.consultarPorNome(nome);
-//    }
+    @GetMapping("/por-nome")
+    public List<Cozinha> cozinhasPorNome(String nome) {
+        return cozinhaRepository.findTodasByNomeContaining(nome);
+    }
+
+    @GetMapping("/por-nome/unica-por-nome")
+    public Optional<Cozinha> cozinhasUnicaPorNome(String nome) {
+        return cozinhaRepository.findByNome(nome);
+    }
 
     @GetMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
