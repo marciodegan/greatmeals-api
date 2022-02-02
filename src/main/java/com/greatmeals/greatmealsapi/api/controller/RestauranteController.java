@@ -48,6 +48,26 @@ public class RestauranteController {
         return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
     }
 
+    @GetMapping("/primeiro-por-nome")
+    public Optional<Restaurante> restaurantePrimeiroPorNome(String nome) {
+        return restauranteRepository.findFirstRestauranteByNomeContaining(nome);
+    }
+
+    @GetMapping("/top-2-por-nome")
+    public List<Restaurante> restaurantesTop2PorNome(String nome) {
+        return restauranteRepository.findTop2ByNomeContaining(nome);
+    }
+
+    @GetMapping("/restaurante-exists")
+    public boolean restaurantesExists(String nome) {
+        return restauranteRepository.existsByNomeContaining(nome);
+    }
+
+    @GetMapping("/restaurante-count-cozinha")
+    public int restaurantesCountCozinha(Long cozinhaId) {
+        return restauranteRepository.countByCozinhaId(cozinhaId);
+    }
+
     @GetMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> buscar(@PathVariable("restauranteId") Long id) {
         Optional<Restaurante> restaurante = restauranteRepository.findById(id);
