@@ -1,7 +1,13 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.List;
 
 
 @Entity
@@ -14,6 +20,9 @@ public class Cozinha {
 
     @Column(nullable = false)
     private String nome;
+
+    @OneToMany(mappedBy = "cozinha")
+    private List<Restaurante> restaurantes = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -44,5 +53,10 @@ public class Cozinha {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+
+    public List<Restaurante> getRestaurantes() {
+        return restaurantes;
     }
 }
