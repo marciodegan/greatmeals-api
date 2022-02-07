@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.List;
+
 
 @Entity
 public class Restaurante {
@@ -24,9 +27,12 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
-    @ManyToOne
-    @JoinColumn(name = "forma_pagamento_id", nullable = false)
-    private FormaPagamento formaPagamento;
+    // @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "restaurante_forma_pagamento",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
+    private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -61,12 +67,12 @@ public class Restaurante {
         this.cozinha = cozinha;
     }
 
-    public FormaPagamento getFormaPagamento() {
-        return formaPagamento;
+    public List<FormaPagamento> getFormasPagamento() {
+        return formasPagamento;
     }
 
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+        this.formasPagamento = formasPagamento;
     }
 
     @Override
