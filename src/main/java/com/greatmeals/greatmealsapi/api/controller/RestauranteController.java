@@ -7,8 +7,7 @@ import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
 import com.greatmeals.greatmealsapi.domain.service.RestauranteService;
-import com.greatmeals.greatmealsapi.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
-import com.greatmeals.greatmealsapi.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
+import com.greatmeals.greatmealsapi.infrastructure.repository.spec.RestauranteSpecs;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,9 +46,9 @@ public class RestauranteController {
 
     @GetMapping("/com-frete-gratis")
     public List<Restaurante> restauranteComFreteGraris(String nome) {
-        var comFreteGratis = new RestauranteComFreteGratisSpec();
-        var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
-        return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+
+        return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis()
+                .and(RestauranteSpecs.comNomeSemelhante(nome)));
     }
 
     @GetMapping("/por-taxa-frete")
