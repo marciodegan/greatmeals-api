@@ -44,6 +44,11 @@ public class RestauranteController {
         return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
     }
 
+    @GetMapping("/primeiro")
+    public Optional<Restaurante> restaurantePrimeiro() {
+        return restauranteRepository.buscarPrimeiro();
+    }
+
     @GetMapping("/com-frete-gratis")
     public List<Restaurante> restauranteComFreteGraris(String nome) {
 

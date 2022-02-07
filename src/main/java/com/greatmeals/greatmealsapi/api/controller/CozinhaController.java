@@ -3,6 +3,7 @@ package com.greatmeals.greatmealsapi.api.controller;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
+import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +25,11 @@ public class CozinhaController {
 
     @Autowired
     private CadastroCozinhaService cadastroCozinhaService;
+
+    @GetMapping("/primeira")
+    public Optional<Cozinha> cozinhaPrimeiro() {
+        return cozinhaRepository.buscarPrimeiro();
+    }
 
     @GetMapping
     public List<Cozinha> listar() {
