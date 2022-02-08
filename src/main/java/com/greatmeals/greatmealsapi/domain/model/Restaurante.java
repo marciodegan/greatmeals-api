@@ -27,6 +27,7 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
+    @JsonIgnore
     @Embedded
     private Endereco endereco;
 
@@ -89,5 +90,9 @@ public class Restaurante {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
     }
 }
