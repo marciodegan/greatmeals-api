@@ -1,9 +1,12 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
@@ -30,6 +33,14 @@ public class Restaurante {
     @JsonIgnore
     @Embedded
     private Endereco endereco;
+
+    @CreationTimestamp
+    @Column(nullable = false)
+    private LocalDateTime dataCadastro;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime dataAtualizacao;
 
     // @JsonIgnore
     @ManyToMany
@@ -94,5 +105,25 @@ public class Restaurante {
 
     public Endereco getEndereco() {
         return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 }
