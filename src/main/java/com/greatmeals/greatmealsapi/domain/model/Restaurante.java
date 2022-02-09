@@ -34,6 +34,10 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
+
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime dataCadastro;
@@ -125,5 +129,9 @@ public class Restaurante {
 
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
     }
 }

@@ -16,3 +16,9 @@ insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cep, enderec
 insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id, data_cadastro, data_atualizacao) values (3, 'Restaurante 3', 0.00, 1, "90000-003", "Rua das Margaridas", "300", "ap13", "Centro", 1, utc_timestamp, utc_timestamp);
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 1);
+
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 1', 'Descricao do Produto 1', 50.00, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 2', 'Descricao do Produto 2', 60.00, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 3', 'Descricao do Produto 3', 70.00, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 4', 'Descricao do Produto 4', 80.00, 1, 2);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 5', 'Descricao do Produto 5', 90.00, 1, 2);
