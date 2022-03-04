@@ -1,15 +1,13 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
-import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
-import com.greatmeals.greatmealsapi.domain.service.CidadeService;
+import com.greatmeals.greatmealsapi.domain.service.CadastroCidadeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cidades")
@@ -17,9 +15,9 @@ public class CidadeController {
 
     private CidadeRepository cidadeRepository;
 
-    private CidadeService cidadeService;
+    private CadastroCidadeService cidadeService;
 
-    public CidadeController(CidadeRepository cidadeRepository, CidadeService cidadeService) {
+    public CidadeController(CidadeRepository cidadeRepository, CadastroCidadeService cidadeService) {
         this.cidadeRepository = cidadeRepository;
         this.cidadeService = cidadeService;
     }
@@ -30,23 +28,29 @@ public class CidadeController {
     }
 
     @GetMapping("/{cidadeId}")
-    public ResponseEntity<?> buscar(@PathVariable Long cidadeId) {
-
-        Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
-
-        if (cidade.isPresent()) {
-            return ResponseEntity.ok(cidade.get());
-        }
-        return ResponseEntity.notFound().build();
+    public Cidade buscar(@PathVariable Long cidadeId) {
+        return cidadeService.buscarOuFalhar(cidadeId);
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
-        try {
-            cidade = cidadeService.salvar(cidade);
-            return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cidade adicionar(@RequestBody Cidade cidade) {
+        return cidadeService.salvar(cidade);
+    }
+
+    @PutMapping("/{cidadeId}")
+    public Cidade atualizar(@PathVariable Long cidadeId,
+                            @RequestBody Cidade cidade) {
+        Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
+
+        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+
+        return cidadeService.salvar(cidadeAtual);
+    }
+
+    @DeleteMapping("/{cidadeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long cidadeId) {
+        cidadeService.excluir(cidadeId);
     }
 }
