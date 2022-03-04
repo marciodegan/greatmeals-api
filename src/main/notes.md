@@ -42,3 +42,8 @@
 
 ### Tratando exceções globais com @ExceptionHandler e @ControllerAdvice
 - O Exception Handler permite não só customizar as exceções criadas por nós, e do jeito que quisermos através do acesso ao ResponseEntity, mas também pode ser usada para tratamento de exceptions não criadas por nós, como no exemplo, onde tratamos exceção HttpMediaTypeNotSupportedException (requisição XML, enquanto que a aplicação aceita somente Json).
+
+### Criando um exception handler global com ResponseEntityExceptionHandler
+- A classe ResponseEntityExceptionHandler pode ser extendida em classes de ExceptionHandler globais como a ApiExceptionHandler. Esta classe trata exceptions internas do Spring MVC.
+- Inclusive já trata a Exception do HttpMediaTypeNotSupported
+- Por padrão ela não especifica nenhuma resposta.
