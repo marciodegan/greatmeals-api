@@ -1,7 +1,7 @@
 package com.greatmeals.greatmealsapi.domain.service;
 
+import com.greatmeals.greatmealsapi.domain.exception.CidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
-import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.model.Estado;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
@@ -13,14 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CadastroCidadeService {
 
-    public static final String MSG_CIDADE_NAO_ENCONTRADA
-            = "Cidade não encontrada com o numero %d";
-
     public static final String MSG_CIDADE_EM_USO
             = "Cidade de código %d não pode ser removido, pois já está em uso";
-
-    public static final String MSG_NAO_EXISTE_ESTADO_COM_ESTE_CODIGO
-            = "Não existe cadastro de estado com código %d";
 
     @Autowired
     private CidadeRepository cidadeRepository;
@@ -40,7 +34,7 @@ public class CadastroCidadeService {
         try {
             cidadeRepository.deleteById(cidadeId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
+            throw new CidadeNaoEncontradaException(cidadeId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format(MSG_CIDADE_EM_USO, cidadeId));
@@ -49,7 +43,6 @@ public class CadastroCidadeService {
 
     public Cidade buscarOuFalhar(Long cidadeId) {
         return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 }

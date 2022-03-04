@@ -1,6 +1,6 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
-import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
+import com.greatmeals.greatmealsapi.domain.exception.EstadoNaoEncontradoException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
@@ -39,22 +39,23 @@ public class CidadeController {
     public Cidade adicionar(@RequestBody Cidade cidade) {
         try {
             return cidadeService.salvar(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{cidadeId}")
     public Cidade atualizar(@PathVariable Long cidadeId,
                             @RequestBody Cidade cidade) {
-        Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
-
-        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-
         try {
+            Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
+
+            BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+
             return cidadeService.salvar(cidadeAtual);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
+
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 

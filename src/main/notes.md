@@ -22,3 +22,11 @@
 
 ### Criando a exception NegocioException
 * Qualquer erro de negócio mais genérico, vamos mapear para Bad Request.
+
+### Afinando a granularidade e definindo a hierarquia das exceptions de negócios
+* A exception EntidadeNaoEncontradaException não detalha qual entidade se refere, pois é genérica.
+* Quando temos uma exception com uma granularidade muito grossa, ou seja, muito genérica, não conseguimos tratá-la de uma forma muito específica.
+* O dia que quisermos mudar a implementação, não lembraremos que precisaremos mudar no controller, que está sendo tratada como NegocioException.
+* SOLUÇÃO: ao invés de lançar uma exception "EntidadeNaoEncontradaException", poderiamos lançar uma exception mais granular, mais específica, como por exemplo, EstadoNaoEncontradoException ou CidadeNaoEncontradaException.
+* Ao criar uma exception mais granular, como por exemplo, EstadoNaoEncontradoException, vamos herdar de EntidadeNaoEncontradaException e assim, permitimos a quem for usar, podendo escolher entre fazer um catch na EntidadeNaoEncontrada(menos granular) ou na EstadoNaoEncontrado(mais granular).
+* Como EntidadeNaoEncontradaException já tem o @ResponseStatus(HttpStatus.NOT_FOUND), não é necessario na classe que a herda.
