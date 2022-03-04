@@ -1,5 +1,7 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -17,6 +19,7 @@ public class Cozinha {
     @Column(nullable = false)
     private String nome;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurantes = new ArrayList<>();
 

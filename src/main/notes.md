@@ -9,3 +9,12 @@
 * Na classe de 'service' não se muda nada. Mas, no controller não é necessário mais o catch, pois o EntidadeNaoEncontradaException é um ResponseStatusException(pois herda), então não é preciso tratar mais.
 * VANTAGEM: é que quem lança a exception consegue customizar o código Http. Se fosse utilizado o @ResponseStatus, seria necessário criar outra classe de Exception. Por exemplo para BadRequest.
 * DESVANTAGEM: customização dentro de uma classe de negócio.
+
+
+### Simplificando o código com o uso de @ResponseStatus em exceptions
+* Simplificamos ao substituir onde tem Optional/onde precisamos dar um findById.
+* Colocamos em uma classe Service o código repetido de "findBy ou Falha"
+>         return cozinhaRepository.findById(id)
+>              .orElseThrow(() -> new EntidadeNaoEncontradaException("entidade não encontrada"));
+* Na refatoração do método de Update, não é necessário mais verificar se cozinhaAtual é nula ou não com o if/isPresent(), porque agora nunca será nulo. Se não houver uma cozinha, será lançada a exception.
+* Foram criadas duas constantes para mensagens na CozinhaService
