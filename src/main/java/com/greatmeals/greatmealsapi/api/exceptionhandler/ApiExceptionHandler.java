@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.api.exceptionhandler;
 
+import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import org.apache.coyote.Response;
@@ -32,6 +33,13 @@ public class ApiExceptionHandler {
     public ResponseEntity<?> tratarHttpMediaTypeNotSupportedException() {
         Problema problema = new Problema(LocalDateTime.now(), "O tipo de media não é aceito");
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(problema);
+    }
+
+    @ExceptionHandler(EntidadeEmUsoException.class)
+    public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException e) {
+        Problema problema = new Problema(LocalDateTime.now(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(problema);
     }
 }
