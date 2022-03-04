@@ -18,3 +18,7 @@
 >              .orElseThrow(() -> new EntidadeNaoEncontradaException("entidade não encontrada"));
 * Na refatoração do método de Update, não é necessário mais verificar se cozinhaAtual é nula ou não com o if/isPresent(), porque agora nunca será nulo. Se não houver uma cozinha, será lançada a exception.
 * Foram criadas duas constantes para mensagens na CozinhaService
+
+
+### Criando a exception NegocioException
+* Qualquer erro de negócio mais genérico, vamos mapear para Bad Request.

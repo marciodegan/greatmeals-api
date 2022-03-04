@@ -1,5 +1,7 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
+import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCidadeService;
@@ -35,7 +37,11 @@ public class CidadeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cidade adicionar(@RequestBody Cidade cidade) {
-        return cidadeService.salvar(cidade);
+        try {
+            return cidadeService.salvar(cidade);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{cidadeId}")
@@ -45,7 +51,11 @@ public class CidadeController {
 
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
-        return cidadeService.salvar(cidadeAtual);
+        try {
+            return cidadeService.salvar(cidadeAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{cidadeId}")
