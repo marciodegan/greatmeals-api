@@ -38,3 +38,7 @@
 >"dataHora": "2022-03-04T17:30:02.3424591",
 >"mensagem": "Cidade não foi encontrada com o número 15"
 >}
+
+
+### Tratando exceções globais com @ExceptionHandler e @ControllerAdvice
+- O Exception Handler permite não só customizar as exceções criadas por nós, e do jeito que quisermos através do acesso ao ResponseEntity, mas também pode ser usada para tratamento de exceptions não criadas por nós, como no exemplo, onde tratamos exceção HttpMediaTypeNotSupportedException (requisição XML, enquanto que a aplicação aceita somente Json).
