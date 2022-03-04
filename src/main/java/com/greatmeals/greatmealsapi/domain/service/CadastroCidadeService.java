@@ -5,7 +5,6 @@ import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaExcept
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.model.Estado;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
-import com.greatmeals.greatmealsapi.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,13 +26,10 @@ public class CadastroCidadeService {
     private CidadeRepository cidadeRepository;
 
     @Autowired
-    private EstadoRepository estadoRepository;
+    private CadastroEstadoService estadoService;
 
     public Cidade salvar(Cidade cidade) {
-        Long estadoId = cidade.getEstado().getId();
-        Estado estado = estadoRepository.findById(estadoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_NAO_EXISTE_ESTADO_COM_ESTE_CODIGO, estadoId)));
+        Estado estado = estadoService.buscarOuFalhar(cidade.getEstado().getId());
 
         cidade.setEstado(estado);
 
