@@ -1,5 +1,8 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.greatmeals.greatmealsapi.domain.exception.CozinhaNaoEncontradaException;
+import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
+import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroRestauranteService;
@@ -24,7 +27,9 @@ public class RestauranteController {
     private RestauranteRepository restauranteRepository;
 
     @GetMapping
-    public List<Restaurante> listar() { return restauranteRepository.findAll(); }
+    public List<Restaurante> listar() {
+        return restauranteRepository.findAll();
+    }
 
     @GetMapping("/{restauranteId}")
     public Restaurante buscar(@PathVariable Long restauranteId) {
@@ -34,7 +39,12 @@ public class RestauranteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
-        return restauranteService.salvar(restaurante);
+        try {
+            return restauranteService.salvar(restaurante);
+        } catch (
+                CozinhaNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{restauranteId}")
@@ -43,9 +53,13 @@ public class RestauranteController {
         Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
         BeanUtils.copyProperties(restaurante, restauranteAtual,
-                        "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+                "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 
-        return restauranteService.salvar(restauranteAtual);
+        try {
+            return restauranteService.salvar(restauranteAtual);
+        } catch (CozinhaNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{restauranteId}")
