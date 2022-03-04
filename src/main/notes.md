@@ -30,3 +30,11 @@
 * SOLUÇÃO: ao invés de lançar uma exception "EntidadeNaoEncontradaException", poderiamos lançar uma exception mais granular, mais específica, como por exemplo, EstadoNaoEncontradoException ou CidadeNaoEncontradaException.
 * Ao criar uma exception mais granular, como por exemplo, EstadoNaoEncontradoException, vamos herdar de EntidadeNaoEncontradaException e assim, permitimos a quem for usar, podendo escolher entre fazer um catch na EntidadeNaoEncontrada(menos granular) ou na EstadoNaoEncontrado(mais granular).
 * Como EntidadeNaoEncontradaException já tem o @ResponseStatus(HttpStatus.NOT_FOUND), não é necessario na classe que a herda.
+
+### Tratando exceções em nível de controlador com @ExceptionHandler
+* A partir da customização de mensagem pelo ExceptionHandler, obtém-se resposta como no exemplo abaixo:
+>
+>{
+>"dataHora": "2022-03-04T17:30:02.3424591",
+>"mensagem": "Cidade não foi encontrada com o número 15"
+>}

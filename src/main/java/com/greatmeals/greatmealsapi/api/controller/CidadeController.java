@@ -1,5 +1,7 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.greatmeals.greatmealsapi.api.exceptionhandler.Problema;
+import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.EstadoNaoEncontradoException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
@@ -7,8 +9,10 @@ import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -63,5 +67,19 @@ public class CidadeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cidadeId) {
         cidadeService.excluir(cidadeId);
+    }
+
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    public ResponseEntity<?> tratarEntitdadeNaoEncontradaException(EntidadeNaoEncontradaException e) {
+        Problema problema = new Problema(LocalDateTime.now(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(problema);
+    }
+
+    @ExceptionHandler(NegocioException.class)
+    public ResponseEntity<?> tratarNegocioException(NegocioException e) {
+        Problema problema = new Problema(LocalDateTime.now(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(problema);
     }
 }
