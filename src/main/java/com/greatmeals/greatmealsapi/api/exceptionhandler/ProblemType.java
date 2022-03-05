@@ -1,7 +1,10 @@
 package com.greatmeals.greatmealsapi.api.exceptionhandler;
 
 public enum ProblemType {
-    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada");
+    MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem Incomprensível"),
+    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
+    ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
+    ERRO_NEGOCIO("/erro-negocio", "Violacao de regra de negocio");
 
     private String title;
     private String uri;
