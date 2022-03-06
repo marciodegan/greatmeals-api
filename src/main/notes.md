@@ -51,4 +51,7 @@
 ### Tratando a exception InvalidFormatException na desserialização
 - Biblioteca do projeto commons-lang (projeto do Apache) que fornece vários métodos utilitários para trabalhar mais facilmente com string, numeros e exceptions.
 - ExceptionUtils.getRootCause() - neste método, passamos a exception ele retorna a causa raiz. Ele vai em toda a pilha de exceções e retorna a raiz.
-- 
+
+### Habilitando erros na desserialização de propriedades inexistentes ou ignoradas
+- spring.jackson.deserialization.fail-on-unknown-properties=true
+- spring.jackson.deserialization.fail-on-ignored-properties=true
