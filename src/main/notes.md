@@ -47,3 +47,8 @@
 - A classe ResponseEntityExceptionHandler pode ser extendida em classes de ExceptionHandler globais como a ApiExceptionHandler. Esta classe trata exceptions internas do Spring MVC.
 - Inclusive já trata a Exception do HttpMediaTypeNotSupported
 - Por padrão ela não especifica nenhuma resposta.
+
+### Tratando a exception InvalidFormatException na desserialização
+- Biblioteca do projeto commons-lang (projeto do Apache) que fornece vários métodos utilitários para trabalhar mais facilmente com string, numeros e exceptions.
+- ExceptionUtils.getRootCause() - neste método, passamos a exception ele retorna a causa raiz. Ele vai em toda a pilha de exceções e retorna a raiz.
+- 

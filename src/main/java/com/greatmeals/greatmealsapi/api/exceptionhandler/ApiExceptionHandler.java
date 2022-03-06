@@ -1,8 +1,10 @@
 package com.greatmeals.greatmealsapi.api.exceptionhandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
+import org.flywaydb.core.internal.util.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +14,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.stream.Collectors;
+
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        // capturamos a HttpMessageNotReadableException, pega a rootCause
+        Throwable rootCause = ExceptionUtils.getRootCause(ex);
+
+        // se a causa raiz for uma InvalidFormatException, retorna com o método especialista em tratá-la.
+        if (rootCause instanceof InvalidFormatException) {
+            return handlInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
+        }
+        // se não, trata de forma genérica.
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
         String detail = "O corpo da requisição está inválido.";
@@ -24,6 +36,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         Problem problem = createProblem(status, problemType, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    private ResponseEntity<Object> handlInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String path = ex.getPath().stream()
+                .map(ref -> ref.getFieldName())
+                .collect(Collectors.joining("."));
+
+        ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
+
+        String detail = String.format("A propriedade '%s' recebeu o valor '%s' que é de um tipo inválido." +
+                 "Corrija e informe um valor compatível com o tipo %s.",
+                path, ex.getValue(), ex.getTargetType().getSimpleName());
+
+        Problem problem = createProblem(status, problemType, detail);
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
