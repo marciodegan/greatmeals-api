@@ -55,3 +55,7 @@
 ### Habilitando erros na desserialização de propriedades inexistentes ou ignoradas
 - spring.jackson.deserialization.fail-on-unknown-properties=true
 - spring.jackson.deserialization.fail-on-ignored-properties=true
+
+### Lançando exception de desserialização na atualização parcial (PATCH)
+- Quando a requisição falhar/tiver uma propriedade que não exista, vai cair no catch IllegalArgumentException, onde pegamos a causa raiz e relançamos como HttpMessageNotReadableException, passando os argumentos como rootCause.
+- Isso vai lançar a exception, e o ExceptionHandler vai reconhecer o HttpMessageNotReadableException. Passando pelo método, vai cair no else if do PropertyBindingException.

@@ -1,6 +1,7 @@
 package com.greatmeals.greatmealsapi.api.exceptionhandler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
@@ -13,22 +14,25 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        // capturamos a HttpMessageNotReadableException, pega a rootCause
+
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
-        // se a causa raiz for uma InvalidFormatException, retorna com o método especialista em tratá-la.
         if (rootCause instanceof InvalidFormatException) {
             return handlInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
+        } else if (rootCause instanceof PropertyBindingException) {
+            return handlePropertyBindingException((PropertyBindingException) rootCause, headers, status, request);
         }
-        // se não, trata de forma genérica.
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
         String detail = "O corpo da requisição está inválido.";
@@ -38,11 +42,29 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
-    private ResponseEntity<Object> handlInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> handlePropertyBindingException(
+            PropertyBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        String path = ex.getPath().stream()
+        String path = joinPath(ex.getPath());
+
+        ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
+        String detail = String.format("A propriedade '%s' não existe. "
+                + "Corrija ou remova essa propriedade e tente novamente.", path);
+
+        Problem problem = createProblem(status, problemType, detail);
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
+    private String joinPath(List<Reference> references) {
+        return references.stream()
                 .map(ref -> ref.getFieldName())
                 .collect(Collectors.joining("."));
+    }
+
+    private ResponseEntity<Object> handlInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String path = joinPath(ex.getPath());
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
 
