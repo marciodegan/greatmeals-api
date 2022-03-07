@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +50,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.ARGUMENTO_INVÁLIDO;
         String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
-        Problem problem = createProblem(status, problemType, detail, detail);
+        BindingResult bindingResult = ex.getBindingResult();
+
+        List<Problem.Field> problemFields = bindingResult.getFieldErrors().stream()
+                .map(fieldError -> new Problem.Field(fieldError.getField(), fieldError.getDefaultMessage()))
+                .collect(Collectors.toList());
+
+        Problem problem = new Problem(status.value(), problemType.getTitle(), problemType.getUri(), detail, detail, problemFields);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -202,7 +208,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage) {
-        return new Problem(status.value(), problemType.getTitle(), problemType.getUri(), detail, userMessage, LocalDateTime.now());
+        return new Problem(status.value(), problemType.getTitle(), problemType.getUri(), detail, userMessage);
     }
 
 
