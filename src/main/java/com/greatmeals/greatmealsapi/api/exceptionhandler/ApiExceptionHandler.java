@@ -25,13 +25,15 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    public static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
+            + "Tente novamente e se o problema persistir, entre em contato "
+            + "com o administrador do sistema.";
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         ProblemType problemType = ProblemType.ERRO_DE_SISTEMA;
-        String detail = "Ocorreu um erro interno inesperado no sistema. "
-                + "Tente novamente e se o problema persistir, entre em contato "
-                + "com o administrador do sistema.";
+        String detail = MSG_ERRO_GENERICO_USUARIO_FINAL;
 
         ex.printStackTrace();
 
@@ -108,7 +110,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("A propriedade '%s' não existe. "
                 + "Corrija ou remova essa propriedade e tente novamente.", path);
 
-        Problem problem = createProblem(status, problemType, detail);
+//        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -129,7 +132,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                  "Corrija e informe um valor compatível com o tipo %s.",
                 path, ex.getValue(), ex.getTargetType().getSimpleName());
 
-        Problem problem = createProblem(status, problemType, detail);
+//        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -167,7 +171,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
         ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
 
-        Problem problem = createProblem(status, problemType, detail);
+//        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 

@@ -11,11 +11,21 @@ public class Problem {
     private String title;
     private String detail;
 
-    public Problem(Integer status, String title, String type, String detail) {
+    private String userMessage;
+
+    public Problem(Integer status, String type, String title, String detail) {
+        this.status = status;
+        this.type = type;
+        this.title = title;
+        this.detail = detail;
+    }
+
+    public Problem(Integer status, String title, String type, String detail, String userMessage) {
         this.status = status;
         this.title = title;
         this.type = type;
         this.detail = detail;
+        this.userMessage = userMessage;
     }
 
     public Problem(Integer status, String title) {
@@ -53,5 +63,9 @@ public class Problem {
 
     public String getDetail() {
         return detail;
+    }
+
+    public String getUserMessage() {
+        return userMessage;
     }
 }
