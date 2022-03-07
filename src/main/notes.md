@@ -59,3 +59,10 @@
 ### Lançando exception de desserialização na atualização parcial (PATCH)
 - Quando a requisição falhar/tiver uma propriedade que não exista, vai cair no catch IllegalArgumentException, onde pegamos a causa raiz e relançamos como HttpMessageNotReadableException, passando os argumentos como rootCause.
 - Isso vai lançar a exception, e o ExceptionHandler vai reconhecer o HttpMessageNotReadableException. Passando pelo método, vai cair no else if do PropertyBindingException.
+
+### Tratando exception de parâmetro de URL inválido
+- MethodArgumentTypeMismatchException é um subtipo de TypeMismatchException .
+- ResponseEntityExceptionHandler já trata TypeMismatchException de forma mais abrangente.
+- Então, especializamos o método handleTypeMismatch e verificamos se a exception é uma instância de MethodArgumentTypeMismatchException.
+- Se for, chamamos um método especialista em tratar esse tipo de exception.
+- Poderíamos fazer tudo dentro de handleTypeMismatch, mas separaramos em outro método.

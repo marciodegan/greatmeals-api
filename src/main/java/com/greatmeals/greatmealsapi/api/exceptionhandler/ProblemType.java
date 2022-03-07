@@ -1,6 +1,7 @@
 package com.greatmeals.greatmealsapi.api.exceptionhandler;
 
 public enum ProblemType {
+    PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),
     MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem Incomprensível"),
     ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
     ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
