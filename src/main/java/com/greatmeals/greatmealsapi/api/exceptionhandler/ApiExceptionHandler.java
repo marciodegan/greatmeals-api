@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,9 +39,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ex.printStackTrace();
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        ProblemType problemType = ProblemType.ARGUMENTO_INVÁLIDO;
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+
+        Problem problem = createProblem(status, problemType, detail, detail);
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
     @Override
@@ -50,7 +63,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.",
                 ex.getRequestURL());
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -77,7 +90,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                         + "que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
                 ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -96,7 +109,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
         String detail = "O corpo da requisição está inválido.";
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -110,8 +123,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = String.format("A propriedade '%s' não existe. "
                 + "Corrija ou remova essa propriedade e tente novamente.", path);
 
-//        Problem problem = createProblem(status, problemType, detail);
-        Problem problem = new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
+        // revisar userMessage mais específica para este caso
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -132,8 +145,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                  "Corrija e informe um valor compatível com o tipo %s.",
                 path, ex.getValue(), ex.getTargetType().getSimpleName());
 
-//        Problem problem = createProblem(status, problemType, detail);
-        Problem problem = new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
+        Problem problem = createProblem(status, problemType, detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -146,7 +158,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
         ProblemType problemType = ProblemType.ENTIDADE_NAO_ENCONTRADA;
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -158,7 +170,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
         ProblemType problemType = ProblemType.ERRO_NEGOCIO;
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -171,8 +183,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
         ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
 
-//        Problem problem = createProblem(status, problemType, detail);
-        Problem problem = new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 
@@ -190,8 +201,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
-    private Problem createProblem(HttpStatus status, ProblemType problemType, String detail) {
-        return new Problem(status.value(), problemType.getTitle(), problemType.getUri(), detail);
+    private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage) {
+        return new Problem(status.value(), problemType.getTitle(), problemType.getUri(), detail, userMessage, LocalDateTime.now());
     }
 
 
