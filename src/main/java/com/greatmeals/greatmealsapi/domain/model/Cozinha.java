@@ -1,7 +1,7 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greatmeals.greatmealsapi.Groups;
+import com.greatmeals.greatmealsapi.core.validation.Groups;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

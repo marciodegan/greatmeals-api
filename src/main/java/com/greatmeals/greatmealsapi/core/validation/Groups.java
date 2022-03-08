@@ -1,4 +1,4 @@
-package com.greatmeals.greatmealsapi;
+package com.greatmeals.greatmealsapi.core.validation;
 
 public interface Groups {
 
