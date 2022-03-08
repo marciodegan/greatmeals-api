@@ -7,6 +7,9 @@ import com.greatmeals.greatmealsapi.domain.exception.EntidadeNaoEncontradaExcept
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import org.flywaydb.core.internal.util.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
@@ -30,6 +34,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
             + "Tente novamente e se o problema persistir, entre em contato "
             + "com o administrador do sistema.";
+
+    @Autowired
+    private MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
@@ -53,7 +60,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
 
         List<Problem.Field> problemFields = bindingResult.getFieldErrors().stream()
-                .map(fieldError -> new Problem.Field(fieldError.getField(), fieldError.getDefaultMessage()))
+                .map(fieldError -> {
+
+                    String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+
+                    return new Problem.Field(fieldError.getField(), message);
+                })
                 .collect(Collectors.toList());
 
         Problem problem = new Problem(status.value(), problemType.getTitle(), problemType.getUri(), detail, detail, problemFields);
