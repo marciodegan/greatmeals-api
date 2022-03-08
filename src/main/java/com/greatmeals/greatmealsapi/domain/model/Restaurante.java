@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greatmeals.greatmealsapi.core.validation.Groups;
+import com.greatmeals.greatmealsapi.core.validation.Multiplo;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,6 +34,7 @@ public class Restaurante {
 //    @DecimalMin("0")
     @NotNull
     @PositiveOrZero(message = "{TaxaFrete.invalida}")
+    @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
