@@ -1,17 +1,19 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greatmeals.greatmealsapi.Groups;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
-
 
 @Entity
 @Table(name = "cozinha")
 public class Cozinha {
 
+    @NotNull(groups = Groups.CadastroRestaurante.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.api.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greatmeals.greatmealsapi.Groups;
 import com.greatmeals.greatmealsapi.domain.exception.CozinhaNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +48,7 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
+    public Restaurante adicionar(@RequestBody @Validated(Groups.CadastroRestaurante.class) Restaurante restaurante) {
         try {
             return restauranteService.salvar(restaurante);
         } catch (

@@ -66,3 +66,7 @@
 - Então, especializamos o método handleTypeMismatch e verificamos se a exception é uma instância de MethodArgumentTypeMismatchException.
 - Se for, chamamos um método especialista em tratar esse tipo de exception.
 - Poderíamos fazer tudo dentro de handleTypeMismatch, mas separaramos em outro método.
+
+### Agrupando e restringindo constraints que devem ser usadas na validação
+- Grupo padrão é Default.class
+- Até podemos especificar @Validated(Default.class), mas é a mesma coisa que não ter, pois é default.
