@@ -47,7 +47,7 @@ public class CidadeController {
 
     @PutMapping("/{cidadeId}")
     public Cidade atualizar(@PathVariable Long cidadeId,
-                            @RequestBody Cidade cidade) {
+                            @RequestBody @Valid Cidade cidade) {
         try {
             Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
 
