@@ -2,5 +2,6 @@ package com.greatmeals.greatmealsapi;
 
 public interface Groups {
 
-    public interface CadastroRestaurante {}
+    public interface CozinhaId {}
+    public interface EstadoId {}
 }
