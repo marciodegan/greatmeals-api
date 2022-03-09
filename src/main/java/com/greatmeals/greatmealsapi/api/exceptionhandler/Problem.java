@@ -16,7 +16,7 @@ public class Problem {
     private String detail;
     private String userMessage;
     private LocalDateTime timestamp;
-    private List<Field> fields;
+    private List<Object> objects;
 
 
     public Problem(Integer status, String type, String title, String detail) {
@@ -36,14 +36,14 @@ public class Problem {
         this.timestamp = LocalDateTime.now();
     }
 
-    public Problem(Integer status, String type, String title, String detail, String userMessage, List<Field> fields) {
+    public Problem(Integer status, String type, String title, String detail, String userMessage, List<Object> objects) {
         this.status = status;
         this.type = type;
         this.title = title;
         this.detail = detail;
         this.userMessage = userMessage;
         this.timestamp = LocalDateTime.now();
-        this.fields = fields;
+        this.objects = objects;
     }
 
     public Problem(Integer status, String title) {
@@ -76,15 +76,15 @@ public class Problem {
         return timestamp;
     }
 
-    public List<Field> getFields() {
-        return fields;
+    public List<Object> getObjects() {
+        return objects;
     }
 
-    public static class Field {
+    public static class Object {
         private String name;
         private String userMessage;
 
-        public Field(String name, String userMessage) {
+        public Object(String name, String userMessage) {
             this.name = name;
             this.userMessage = userMessage;
         }
