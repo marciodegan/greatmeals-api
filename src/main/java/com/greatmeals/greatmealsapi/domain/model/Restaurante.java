@@ -3,6 +3,7 @@ package com.greatmeals.greatmealsapi.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greatmeals.greatmealsapi.core.validation.Groups;
 import com.greatmeals.greatmealsapi.core.validation.Multiplo;
+import com.greatmeals.greatmealsapi.core.validation.ValorZeroIncluiDescricao;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
 
-
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Entity
 public class Restaurante {
 
