@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,13 @@ public class Pedido {
 
     @CreationTimestamp
     @Column(nullable = false)
-    private LocalDateTime dataCriacao;
+    private OffsetDateTime dataCriacao;
 
     @Column(nullable = false)
-    private LocalDateTime dataConfirmacao;
+    private OffsetDateTime dataConfirmacao;
 
     @Column(nullable = false)
-    private LocalDateTime dataEntrega;
+    private OffsetDateTime dataEntrega;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -90,27 +91,27 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public LocalDateTime getDataCriacao() {
+    public OffsetDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
+    public void setDataCriacao(OffsetDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public LocalDateTime getDataConfirmacao() {
+    public OffsetDateTime getDataConfirmacao() {
         return dataConfirmacao;
     }
 
-    public void setDataConfirmacao(LocalDateTime dataConfirmacao) {
+    public void setDataConfirmacao(OffsetDateTime dataConfirmacao) {
         this.dataConfirmacao = dataConfirmacao;
     }
 
-    public LocalDateTime getDataEntrega() {
+    public OffsetDateTime getDataEntrega() {
         return dataEntrega;
     }
 
-    public void setDataEntrega(LocalDateTime dataEntrega) {
+    public void setDataEntrega(OffsetDateTime dataEntrega) {
         this.dataEntrega = dataEntrega;
     }
 

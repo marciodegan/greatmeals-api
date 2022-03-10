@@ -8,6 +8,7 @@ import com.greatmeals.greatmealsapi.domain.model.FormaPagamento;
 import com.greatmeals.greatmealsapi.domain.model.Produto;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +24,10 @@ public abstract class RestauranteMixin {
     private List<Produto> produtos = new ArrayList<>();
 
     @JsonIgnore
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
-    @JsonIgnore
-    private LocalDateTime dataAtualizacao;
+//    @JsonIgnore
+    private OffsetDateTime dataAtualizacao;
 
     @JsonIgnore
     private List<FormaPagamento> formasPagamento = new ArrayList<>();

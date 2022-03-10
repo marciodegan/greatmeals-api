@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import java.time.LocalDateTime;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @JsonInclude(Include.NON_NULL)
@@ -15,7 +16,7 @@ public class Problem {
     private String title;
     private String detail;
     private String userMessage;
-    private LocalDateTime timestamp;
+    private OffsetDateTime timestamp;
     private List<Object> objects;
 
 
@@ -24,7 +25,7 @@ public class Problem {
         this.type = type;
         this.title = title;
         this.detail = detail;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = OffsetDateTime.now();
     }
 
     public Problem(Integer status, String type, String title, String detail, String userMessage) {
@@ -33,7 +34,7 @@ public class Problem {
         this.title = title;
         this.detail = detail;
         this.userMessage = userMessage;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = OffsetDateTime.now();
     }
 
     public Problem(Integer status, String type, String title, String detail, String userMessage, List<Object> objects) {
@@ -42,14 +43,14 @@ public class Problem {
         this.title = title;
         this.detail = detail;
         this.userMessage = userMessage;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = OffsetDateTime.now();
         this.objects = objects;
     }
 
     public Problem(Integer status, String title) {
         this.status = status;
         this.title = title;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = OffsetDateTime.now();
     }
 
     public Integer getStatus() {
@@ -72,7 +73,7 @@ public class Problem {
         return userMessage;
     }
 
-    public LocalDateTime getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 

@@ -70,3 +70,11 @@
 ### Agrupando e restringindo constraints que devem ser usadas na validação
 - Grupo padrão é Default.class
 - Até podemos especificar @Validated(Default.class), mas é a mesma coisa que não ter, pois é default.
+
+### Boas práticas para trabalhar com data e hora em REST APIs
+- Use ISO-8601 para formatar data/hora
+- Aceite qualquer fuso horário
+- Armazene em UTC
+- Retorne em UTC
+- Não inclua o horário, se não for necessário
+- Lembrar de definir serverTimeZone=UTC no driver JDBC em application.properties
