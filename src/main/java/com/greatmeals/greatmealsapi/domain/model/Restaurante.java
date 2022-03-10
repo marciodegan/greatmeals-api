@@ -1,6 +1,7 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.greatmeals.greatmealsapi.core.validation.Groups;
 import com.greatmeals.greatmealsapi.core.validation.Multiplo;
 import com.greatmeals.greatmealsapi.core.validation.ValorZeroIncluiDescricao;
@@ -39,7 +40,7 @@ public class Restaurante {
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
-//    @JsonIgnore
+    @JsonIgnoreProperties(value = "nome", allowGetters = true)
     @Valid // faz validação em cascata/as propriedades de cozinha
     @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
     @NotNull
