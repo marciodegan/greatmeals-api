@@ -1,15 +1,32 @@
 package com.greatmeals.greatmealsapi.api.model;
 
-import com.greatmeals.greatmealsapi.domain.model.Restaurante;
-
 import java.math.BigDecimal;
 
 public class RestauranteModel {
 
     private Long id;
     private String nome;
-    private BigDecimal taxaFrete;
+    private BigDecimal precoFrete;
     private CozinhaModel cozinha;
+
+    private String cozinhaNome;
+    private Long cozinhaId;
+
+    public String getCozinhaNome() {
+        return cozinhaNome;
+    }
+
+    public void setCozinhaNome(String cozinhaNome) {
+        this.cozinhaNome = cozinhaNome;
+    }
+
+    public Long getCozinhaId() {
+        return cozinhaId;
+    }
+
+    public void setCozinhaId(Long cozinhaId) {
+        this.cozinhaId = cozinhaId;
+    }
 
     public Long getId() {
         return id;
@@ -27,12 +44,12 @@ public class RestauranteModel {
         this.nome = nome;
     }
 
-    public BigDecimal getTaxaFrete() {
-        return taxaFrete;
+    public BigDecimal getPrecoFrete() {
+        return precoFrete;
     }
 
-    public void setTaxaFrete(BigDecimal taxaFrete) {
-        this.taxaFrete = taxaFrete;
+    public void setPrecoFrete(BigDecimal precoFrete) {
+        this.precoFrete = precoFrete;
     }
 
     public CozinhaModel getCozinha() {
