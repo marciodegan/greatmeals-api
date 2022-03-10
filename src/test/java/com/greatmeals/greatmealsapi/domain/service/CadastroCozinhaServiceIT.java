@@ -59,6 +59,7 @@ public class CadastroCozinhaServiceIT {
     @Test
     public void shouldFail_WhenRemoverUmCozinhaEmUso() {
         EntidadeEmUsoException erroEsperado =
+
                 Assertions.assertThrows(EntidadeEmUsoException.class, () -> {
                     cadastroCozinhaService.excluir(1L);
                 });
