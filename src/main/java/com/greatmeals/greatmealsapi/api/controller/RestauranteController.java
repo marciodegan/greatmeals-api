@@ -1,12 +1,11 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.greatmeals.greatmealsapi.api.assembler.RestauranteInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.RestauranteModelAssembler;
-import com.greatmeals.greatmealsapi.api.model.CozinhaModel;
 import com.greatmeals.greatmealsapi.api.model.RestauranteModel;
 import com.greatmeals.greatmealsapi.api.model.input.RestauranteInput;
 import com.greatmeals.greatmealsapi.domain.exception.CozinhaNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
-import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroRestauranteService;
@@ -19,13 +18,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestauranteController {
 
+    @Autowired
+    private RestauranteInputDisassembler restauranteInputDisassembler;
 
     @Autowired
     private RestauranteModelAssembler restauranteModelAssembler;
@@ -53,7 +53,7 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
         try {
-            Restaurante restaurante = toDomainObject(restauranteInput);
+            Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
             return restauranteModelAssembler.toModel(restauranteService.salvar(restaurante));
         } catch (
@@ -66,7 +66,7 @@ public class RestauranteController {
     public RestauranteModel atualizar(@PathVariable Long restauranteId,
                                       @RequestBody @Valid RestauranteInput restauranteInput) {
         try {
-            Restaurante restaurante = toDomainObject(restauranteInput);
+            Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
             Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
 
@@ -84,18 +84,6 @@ public class RestauranteController {
         restauranteService.excluir(restauranteId);
     }
 
-    private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-        Restaurante restaurante = new Restaurante();
-        restaurante.setNome(restauranteInput.getNome());
-        restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-
-        Cozinha cozinha = new Cozinha();
-        cozinha.setId(restauranteInput.getCozinha().getId());
-
-        restaurante.setCozinha(cozinha);
-
-        return restaurante;
-    }
 
 
 //    @PatchMapping("/{restauranteId}")
