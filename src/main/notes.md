@@ -78,3 +78,17 @@
 - Retorne em UTC
 - Não inclua o horário, se não for necessário
 - Lembrar de definir serverTimeZone=UTC no driver JDBC em application.properties
+
+
+### Granularidade de recursos: Chatty vs Chunky APIs
+- Quando modelamos recursos de granularidade fina, tendemos a criar uma api Chatty Api (tradução: tagarela).
+- O consumidor da API precisa fazer várias chamadas para exceutar uma única operação comum.
+- Exemplo: Cadastrar um novo restaurante. Se o usuário precisa fazer um post no nome e depois um put para endereço e depois fazer novo put para ativar. e depois outro put para adicionar taxa de frete.
+
+- Quando modelamos recursos de granularidade grossa, a API tende a ser Chunky API (tradução: pedaço grande).
+- As operações são feitas em uma única requisição.
+
+- Devemos sempre pensar no consumidor da api.
+- Granularidade Fina - temos que tomar cuidado para não deixar o estado do recurso inconsistente. Exemplo: se o endereco do restaurante é obrigatório, mas separamos ele em um sub-recurso (/restaurantes/1/endereco), neste caso, o consumidor pode cadastrar um novo restaurante e, propositalmente ou não, não cadastrar um endereco, deixando o estado desse recurso inconsistente.
+- Isso acaba por exigir uma sequencia para cadastramento (1 cadastrar o endereco, 2 definir o endereco para o restaurante, ...) e isso faz com que as regras da api fiquem do lado do usuario.
+-  
