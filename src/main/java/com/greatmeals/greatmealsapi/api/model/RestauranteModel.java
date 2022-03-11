@@ -8,25 +8,7 @@ public class RestauranteModel {
     private String nome;
     private BigDecimal precoFrete;
     private CozinhaModel cozinha;
-
-    private String cozinhaNome;
-    private Long cozinhaId;
-
-    public String getCozinhaNome() {
-        return cozinhaNome;
-    }
-
-    public void setCozinhaNome(String cozinhaNome) {
-        this.cozinhaNome = cozinhaNome;
-    }
-
-    public Long getCozinhaId() {
-        return cozinhaId;
-    }
-
-    public void setCozinhaId(Long cozinhaId) {
-        this.cozinhaId = cozinhaId;
-    }
+    private Boolean ativo;
 
     public Long getId() {
         return id;
@@ -60,8 +42,11 @@ public class RestauranteModel {
         this.cozinha = cozinha;
     }
 
-//    public Restaurante toModel(RestauranteModel restauranteModel) {
-//        return new Restaurante(restauranteModel.getNome(), restauranteModel.getTaxaFrete(), restauranteModel.getCozinha().getId());
-//    }
+    public Boolean getAtivo() {
+        return ativo;
+    }
 
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 }
