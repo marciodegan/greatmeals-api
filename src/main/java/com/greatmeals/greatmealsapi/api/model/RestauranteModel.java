@@ -9,6 +9,15 @@ public class RestauranteModel {
     private BigDecimal precoFrete;
     private CozinhaModel cozinha;
     private Boolean ativo;
+    private EnderecoModel endereco;
+
+    public EnderecoModel getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoModel endereco) {
+        this.endereco = endereco;
+    }
 
     public Long getId() {
         return id;
