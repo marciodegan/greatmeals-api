@@ -7,12 +7,9 @@ import com.greatmeals.greatmealsapi.api.model.input.CozinhaInput;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCozinhaService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,7 +33,6 @@ public class CozinhaController {
 
     @GetMapping
     public List<CozinhaModel> listar() {
-
         return cozinhaModelAssembler.toCollectionModel(cozinhaRepository.findAll());
     }
 

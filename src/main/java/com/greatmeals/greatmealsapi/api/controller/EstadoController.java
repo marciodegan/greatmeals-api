@@ -24,14 +24,11 @@ public class EstadoController {
     @Autowired
     private EstadoModelAssembler estadoModelAssembler;
 
+    @Autowired
     private EstadoRepository estadoRepository;
 
+    @Autowired
     private CadastroEstadoService estadoService;
-
-    public EstadoController(EstadoRepository estadoRepository, CadastroEstadoService estadoService) {
-        this.estadoRepository = estadoRepository;
-        this.estadoService = estadoService;
-    }
 
     @GetMapping
     public List<EstadoModel> listar() {
@@ -45,7 +42,10 @@ public class EstadoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EstadoModel adicionar(@RequestBody @Valid Estado estado) {
+    public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
+
+        Estado estado = estadoInputDisassembler.toDomainObject(estadoInput);
+
         return estadoModelAssembler.toModel(estadoService.salvar(estado));
     }
 
@@ -53,6 +53,7 @@ public class EstadoController {
     public EstadoModel atualizar(@PathVariable Long estadoId,
                                  @RequestBody @Valid EstadoInput estadoInput) {
         Estado estado = estadoService.buscarOuFalhar(estadoId);
+
         estadoInputDisassembler.copyToDomainObject(estadoInput, estado);
 
         return estadoModelAssembler.toModel(estadoService.salvar(estado));

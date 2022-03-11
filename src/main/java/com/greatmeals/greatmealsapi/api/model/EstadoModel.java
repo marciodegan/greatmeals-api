@@ -2,7 +2,16 @@ package com.greatmeals.greatmealsapi.api.model;
 
 public class EstadoModel {
 
+    private Long id;
     private String nome;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
