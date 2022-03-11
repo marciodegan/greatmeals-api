@@ -14,12 +14,10 @@ import java.util.List;
 @Table(name = "cozinha")
 public class Cozinha {
 
-//    @NotNull(groups = Groups.CozinhaId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false)
     private String nome;
 

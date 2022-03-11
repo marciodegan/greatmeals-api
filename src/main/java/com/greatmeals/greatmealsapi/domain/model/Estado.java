@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Estado {
 
-    @NotNull(groups = Groups.CozinhaId.class)
+    @NotNull(groups = Groups.EstadoId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
