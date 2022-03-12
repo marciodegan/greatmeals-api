@@ -46,3 +46,7 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Pro
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 3', 'Descricao do Produto 3', 70.00, 1, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 4', 'Descricao do Produto 4', 80.00, 1, 2);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 5', 'Descricao do Produto 5', 90.00, 1, 2);
+
+insert into grupo (nome) values ('Administrativo');
+insert into grupo (nome) values ('Diretoria');
+
