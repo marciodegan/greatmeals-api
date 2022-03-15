@@ -8,6 +8,7 @@ import com.greatmeals.greatmealsapi.domain.model.Grupo;
 import com.greatmeals.greatmealsapi.domain.repository.GrupoRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroGrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,6 +41,7 @@ public class GrupoController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public GrupoModel adicionar(@RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupo = grupoInputDisassembler.toDomainObject(grupoInput);
 
@@ -57,6 +59,7 @@ public class GrupoController {
     }
 
     @DeleteMapping("/{grupoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long grupoId) {
         cadastroGrupoService.excluir(grupoId);
     }
