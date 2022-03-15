@@ -3,7 +3,6 @@ package com.greatmeals.greatmealsapi.domain.model;
 import com.greatmeals.greatmealsapi.core.validation.Groups;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -14,7 +13,6 @@ public class Estado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false)
     private String nome;
 

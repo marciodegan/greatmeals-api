@@ -1,7 +1,5 @@
 package com.greatmeals.greatmealsapi.api.model;
 
-import com.greatmeals.greatmealsapi.domain.model.Estado;
-
 public class CidadeResumoModel {
 
     private Long id;

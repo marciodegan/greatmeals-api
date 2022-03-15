@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.domain.service;
 
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.RestauranteNaoEncontradoException;
+import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.FormaPagamentoRepository;
@@ -28,11 +29,15 @@ public class CadastroRestauranteService {
     @Autowired
     private FormaPagamentoRepository formaPagamentoRepository;
 
+    @Autowired
+    private CadastroCidadeService cidadeService;
+
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
-
         Cozinha cozinha = cozinhaService.buscarOuFalhar(restaurante.getCozinha().getId());
+        Cidade cidade = cidadeService.buscarOuFalhar(restaurante.getEndereco().getCidade().getId());
         restaurante.setCozinha(cozinha);
+        restaurante.getEndereco().setCidade(cidade);
 
         return restauranteRepository.save(restaurante);
     }

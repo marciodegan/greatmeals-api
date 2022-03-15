@@ -1,6 +1,5 @@
 package com.greatmeals.greatmealsapi.api.assembler;
 
-import com.greatmeals.greatmealsapi.api.model.CozinhaModel;
 import com.greatmeals.greatmealsapi.api.model.RestauranteModel;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;

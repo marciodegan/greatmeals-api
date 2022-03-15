@@ -18,6 +18,9 @@ public class RestauranteInput {
     @Valid @NotNull
     private CozinhaIdInput cozinha;
 
+    @Valid @NotNull
+    private EnderecoInput endereco;
+
     public String getNome() {
         return nome;
     }
@@ -40,5 +43,13 @@ public class RestauranteInput {
 
     public void setCozinha(CozinhaIdInput cozinha) {
         this.cozinha = cozinha;
+    }
+
+    public EnderecoInput getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoInput endereco) {
+        this.endereco = endereco;
     }
 }

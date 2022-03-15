@@ -15,15 +15,15 @@ public class Cidade {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+//    @NotBlank
     @Column(nullable = false)
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "estado_id", nullable = false)
     @Valid
     @NotNull
     @ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
+    @ManyToOne
+    @JoinColumn(name = "estado_id", nullable = false)
     private Estado estado;
 
     public Long getId() {

@@ -4,6 +4,7 @@ import com.greatmeals.greatmealsapi.api.assembler.RestauranteInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.RestauranteModelAssembler;
 import com.greatmeals.greatmealsapi.api.model.RestauranteModel;
 import com.greatmeals.greatmealsapi.api.model.input.RestauranteInput;
+import com.greatmeals.greatmealsapi.domain.exception.CidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.CozinhaNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
@@ -35,9 +36,6 @@ public class RestauranteController {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
-    @Autowired
-    private SmartValidator validator;
-
     @GetMapping
     public List<RestauranteModel> listar() {
         return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
@@ -53,10 +51,9 @@ public class RestauranteController {
     public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
         try {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-
             return restauranteModelAssembler.toModel(restauranteService.salvar(restaurante));
         } catch (
-                CozinhaNaoEncontradaException e) {
+                CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
