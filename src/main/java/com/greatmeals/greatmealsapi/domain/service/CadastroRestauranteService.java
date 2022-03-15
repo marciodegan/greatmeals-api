@@ -4,6 +4,7 @@ import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.RestauranteNaoEncontradoException;
 import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
+import com.greatmeals.greatmealsapi.domain.model.FormaPagamento;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.FormaPagamentoRepository;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
@@ -31,6 +32,9 @@ public class CadastroRestauranteService {
 
     @Autowired
     private CadastroCidadeService cidadeService;
+
+    @Autowired
+    private CadastroFormaPagamentoService formaPagamentoService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
@@ -72,5 +76,22 @@ public class CadastroRestauranteService {
     public Restaurante buscarOuFalhar(Long restauranteId) {
         return restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
+    }
+
+    @Transactional  // devido o @Transactional, não é necessário dar um save aqui.
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+//        restaurante.getFormasPagamento().remove(formaPagamento);
+        restaurante.removerFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.adicionarFormaPagamento(formaPagamento);
     }
 }
