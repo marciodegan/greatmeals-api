@@ -24,10 +24,13 @@ public class CadastroUsuarioService {
     @Transactional
     public Usuario salvar(Usuario usuario) {
 
+        // tira o usuario do contexto de persistencia
+        usuarioRepository.detach(usuario);
+
         Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
 
         if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
-            throw new NegocioException(String.format("Já existe usuário com este e-mail", usuario.getEmail()));
+            throw new NegocioException(String.format("Já existe usuário com este e-mail %s", usuario.getEmail()));
         }
 
         return usuarioRepository.save(usuario);
