@@ -55,7 +55,7 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Pro
 insert into grupo (nome) values ('Administrativo');
 insert into grupo (nome) values ('Diretoria');
 
---insert into usuario (nome, email, senha, data_cadastro) values ('Pedro', 'Pedro@email.com', 'p12345', utc_timestamp);
---insert into usuario (nome, email, senha, data_cadastro) values ('Joao', 'joao@email.com', 'p12345', utc_timestamp);
---insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'maria@email.com', 'p12345', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Pedro', 'Pedro@email.com', 'p12345', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Joao', 'joao@email.com', 'p12345', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'maria@email.com', 'p12345', utc_timestamp);
 

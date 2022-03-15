@@ -80,4 +80,12 @@ public class Usuario {
     public void setGrupos(List<Grupo> grupos) {
         this.grupos = grupos;
     }
+
+    public boolean senhaMatches(String senha) {
+        return getSenha().equals(senha);
+    }
+
+    public boolean senhaDoesNotMatch(String senha) {
+        return !senhaMatches(senha);
+    }
 }
