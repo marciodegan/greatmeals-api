@@ -2,11 +2,9 @@ package com.greatmeals.greatmealsapi.domain.service;
 
 import com.greatmeals.greatmealsapi.domain.exception.EntidadeEmUsoException;
 import com.greatmeals.greatmealsapi.domain.exception.RestauranteNaoEncontradoException;
-import com.greatmeals.greatmealsapi.domain.model.Cidade;
-import com.greatmeals.greatmealsapi.domain.model.Cozinha;
-import com.greatmeals.greatmealsapi.domain.model.FormaPagamento;
-import com.greatmeals.greatmealsapi.domain.model.Restaurante;
+import com.greatmeals.greatmealsapi.domain.model.*;
 import com.greatmeals.greatmealsapi.domain.repository.FormaPagamentoRepository;
+import com.greatmeals.greatmealsapi.domain.repository.ProdutoRepository;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,10 +29,16 @@ public class CadastroRestauranteService {
     private FormaPagamentoRepository formaPagamentoRepository;
 
     @Autowired
+    private ProdutoRepository produtoRepository;
+
+    @Autowired
     private CadastroCidadeService cidadeService;
 
     @Autowired
     private CadastroFormaPagamentoService formaPagamentoService;
+
+    @Autowired
+    private CadastroProdutoService produtoService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {

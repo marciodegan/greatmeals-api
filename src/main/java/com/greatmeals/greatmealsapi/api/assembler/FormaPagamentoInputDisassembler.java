@@ -13,7 +13,7 @@ public class FormaPagamentoInputDisassembler {
     private ModelMapper modelMapper;
 
     public FormaPagamento toDomainObject(FormaPagamentoInput formaPagamentoInput) {
-        return new ModelMapper().map(formaPagamentoInput, FormaPagamento.class);
+        return modelMapper.map(formaPagamentoInput, FormaPagamento.class);
     }
 
     public void copyToDomainObject(FormaPagamentoInput formaPagamentoInput, FormaPagamento formaPagamento) {
