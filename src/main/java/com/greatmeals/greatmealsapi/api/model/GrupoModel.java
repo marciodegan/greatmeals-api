@@ -1,9 +1,5 @@
 package com.greatmeals.greatmealsapi.api.model;
 
-import com.greatmeals.greatmealsapi.domain.model.Permissao;
-
-import java.util.List;
-
 public class GrupoModel {
 
     private Long id;

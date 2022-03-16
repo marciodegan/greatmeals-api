@@ -24,6 +24,7 @@ alter table produto auto_increment= 1;
 alter table restaurante auto_increment = 1;
 alter table usuario auto_increment = 1;
 alter table permissao auto_increment = 1;
+alter table grupo_permissao auto_increment = 1;
 
 insert into cozinha (id, nome) values (1, 'Chinesa');
 insert into cozinha (id, nome) values (2, 'Brasileira');
@@ -42,6 +43,7 @@ insert into forma_pagamento (id, descricao) values (3, 'crédito');
 
 insert into permissao (nome, descricao) values ('Pode alterar', 'pode alterar campos x, y, z');
 insert into permissao (nome, descricao) values ('Pode criar restaurante', 'cadastra e edita restaurantes');
+insert into permissao (nome, descricao) values ('Pode criar forma de pagamento', 'cadastra e edita forma de pagamento');
 
 
 insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id, data_cadastro, data_atualizacao, ativo, aberto) values (1, 'Restaurante 1', 0.00, 1, "90000-001", "Rua das Rosas", "100", "ap11", "Centro", 1, utc_timestamp, utc_timestamp, true, false);
@@ -63,3 +65,4 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Pedro', 'Pedro@
 insert into usuario (nome, email, senha, data_cadastro) values ('Joao', 'joao@email.com', 'p12345', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'maria@email.com', 'p12345', utc_timestamp);
 
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (1, 3);
