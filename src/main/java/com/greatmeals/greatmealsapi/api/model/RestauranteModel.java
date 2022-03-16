@@ -9,7 +9,16 @@ public class RestauranteModel {
     private BigDecimal precoFrete;
     private CozinhaModel cozinha;
     private Boolean ativo;
+    private Boolean aberto;
     private EnderecoModel endereco;
+
+    public Boolean getAberto() {
+        return aberto;
+    }
+
+    public void setAberto(Boolean aberto) {
+        this.aberto = aberto;
+    }
 
     public EnderecoModel getEndereco() {
         return endereco;
