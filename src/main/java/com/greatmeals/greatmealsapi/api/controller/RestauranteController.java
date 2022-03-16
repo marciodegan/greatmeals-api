@@ -7,6 +7,7 @@ import com.greatmeals.greatmealsapi.api.model.input.RestauranteInput;
 import com.greatmeals.greatmealsapi.domain.exception.CidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.CozinhaNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
+import com.greatmeals.greatmealsapi.domain.exception.RestauranteNaoEncontradoException;
 import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.RestauranteRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroRestauranteService;
@@ -101,6 +102,26 @@ public class RestauranteController {
         restauranteService.fechar(restauranteId);
     }
 
+
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
+        try {
+            restauranteService.ativar(restauranteIds);
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void desativarMultiplos(@RequestBody List<Long> restauranteIds) {
+        try {
+            restauranteService.desativar(restauranteIds);
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
 
 //    @PatchMapping("/{restauranteId}")
 //    public Restaurante atualizarParcial(@PathVariable Long restauranteId,
