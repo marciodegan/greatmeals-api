@@ -5,7 +5,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Usuario {
@@ -30,7 +32,7 @@ public class Usuario {
     @ManyToMany
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-    private List<Grupo> grupos = new ArrayList<>();
+    private Set<Grupo> grupos = new HashSet<>();
 
 
     public Long getId() {
@@ -73,11 +75,11 @@ public class Usuario {
         this.dataCadastro = dataCadastro;
     }
 
-    public List<Grupo> getGrupos() {
+    public Set<Grupo> getGrupos() {
         return grupos;
     }
 
-    public void setGrupos(List<Grupo> grupos) {
+    public void setGrupos(Set<Grupo> grupos) {
         this.grupos = grupos;
     }
 
@@ -87,5 +89,13 @@ public class Usuario {
 
     public boolean senhaDoesNotMatch(String senha) {
         return !senhaMatches(senha);
+    }
+
+    public boolean associarGrupo(Grupo grupo){
+        return getGrupos().add(grupo);
+    }
+
+    public boolean desassociarGrupo(Grupo grupo){
+        return getGrupos().remove(grupo);
     }
 }

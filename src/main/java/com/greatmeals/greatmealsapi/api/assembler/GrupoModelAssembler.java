@@ -1,12 +1,13 @@
 package com.greatmeals.greatmealsapi.api.assembler;
 
+import java.util.List;
 import com.greatmeals.greatmealsapi.api.model.GrupoModel;
 import com.greatmeals.greatmealsapi.domain.model.Grupo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,7 +20,7 @@ public class GrupoModelAssembler {
         return modelMapper.map(grupo, GrupoModel.class);
     }
 
-    public List<GrupoModel> toCollectionModel(List<Grupo> grupos) {
+    public List<GrupoModel> toCollectionModel(Collection<Grupo> grupos) {
         return grupos.stream()
                 .map(grupo -> toModel(grupo))
                 .collect(Collectors.toList());

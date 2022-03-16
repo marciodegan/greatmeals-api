@@ -79,5 +79,4 @@ public class UsuarioController {
                              @RequestBody @Valid SenhaInput senha) {
         cadastroUsuarioService.alteraSenha(usuarioId, senha.getSenhaAtual(), senha.getSenhaNova());
     }
-
 }
