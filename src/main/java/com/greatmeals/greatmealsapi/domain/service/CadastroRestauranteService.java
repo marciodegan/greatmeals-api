@@ -40,6 +40,9 @@ public class CadastroRestauranteService {
     @Autowired
     private CadastroProdutoService produtoService;
 
+    @Autowired
+    private CadastroUsuarioService usuarioService;
+
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Cozinha cozinha = cozinhaService.buscarOuFalhar(restaurante.getCozinha().getId());
@@ -77,10 +80,6 @@ public class CadastroRestauranteService {
         restauranteAtual.inativar();
     }
 
-    public Restaurante buscarOuFalhar(Long restauranteId) {
-        return restauranteRepository.findById(restauranteId)
-                .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
-    }
 
     @Transactional  // devido o @Transactional, não é necessário dar um save aqui.
     public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
@@ -110,4 +109,24 @@ public class CadastroRestauranteService {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
         restaurante.fecharLoja();
     }
+
+    @Transactional
+    public void associarUsuario(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
+        restaurante.adicionarUsuario(usuario);
+    }
+
+    @Transactional
+    public void desassociarUsuario(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
+        restaurante.removerUsuario(usuario);
+    }
+
+    public Restaurante buscarOuFalhar(Long restauranteId) {
+        return restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
+    }
+
 }

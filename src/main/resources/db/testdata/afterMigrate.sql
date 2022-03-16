@@ -12,6 +12,7 @@ delete from restaurante;
 delete from restaurante_forma_pagamento;
 delete from usuario;
 delete from usuario_grupo;
+delete from restaurante_usuario;
 
 set foreign_key_checks = 1;
 
@@ -25,6 +26,7 @@ alter table restaurante auto_increment = 1;
 alter table usuario auto_increment = 1;
 alter table permissao auto_increment = 1;
 alter table grupo_permissao auto_increment = 1;
+alter table restaurante_usuario auto_increment = 1;
 
 insert into cozinha (id, nome) values (1, 'Chinesa');
 insert into cozinha (id, nome) values (2, 'Brasileira');
@@ -68,3 +70,5 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Maria', 'maria@
 insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (1, 3);
 
 insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 1);
+
+insert into restaurante_usuario (restaurante_id, usuario_id) values (1, 1), (1, 2), (2, 2), (3, 1);
