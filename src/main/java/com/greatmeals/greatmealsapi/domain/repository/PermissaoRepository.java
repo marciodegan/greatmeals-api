@@ -9,7 +9,7 @@ import java.util.List;
 public interface PermissaoRepository extends CustomJpaRepository<Permissao, Long> {
 
 //    List<Permissao> todas();
-//    Permissao porId(Long id);
-//    Permissao adicionar(Permissao permissao);
-//    void remover(Permissao permissao);
+////    Permissao porId(Long id);
+////    Permissao adicionar(Permissao permissao);
+////    void remover(Permissao permissao);
 }

@@ -1,60 +1,25 @@
-package com.greatmeals.greatmealsapi.domain.model;
+package com.greatmeals.greatmealsapi.api.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.greatmeals.greatmealsapi.domain.model.*;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Pedido {
+public class PedidoModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private BigDecimal subtotal;
-
-    @Column(nullable = false)
     private BigDecimal taxaFrete;
-
-    @Column(nullable = false)
     private BigDecimal valorTotal;
-
-    @CreationTimestamp
-    @Column(nullable = false)
     private OffsetDateTime dataCriacao;
-
-    @Column(nullable = false)
     private OffsetDateTime dataConfirmacao;
-
-    @Column(nullable = false)
     private OffsetDateTime dataEntrega;
-
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Usuario cliente;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Restaurante restaurante;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private FormaPagamento formaPagamento;
-
-    @Embedded
-    private Endereco endereco;
-
-    @Enumerated(EnumType.STRING)
+    private UsuarioModel cliente;
+    private RestauranteSimplificadoModel restaurante;
+    private EnderecoModel endereco;
     private Status status = Status.CRIADO;
-
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itens = new ArrayList<>();
+    private List<ItemPedidoModel> itens;
 
     public Long getId() {
         return id;
@@ -112,35 +77,27 @@ public class Pedido {
         this.dataEntrega = dataEntrega;
     }
 
-    public Usuario getCliente() {
+    public UsuarioModel getCliente() {
         return cliente;
     }
 
-    public void setCliente(Usuario cliente) {
+    public void setCliente(UsuarioModel cliente) {
         this.cliente = cliente;
     }
 
-    public Restaurante getRestaurante() {
+    public RestauranteSimplificadoModel getRestaurante() {
         return restaurante;
     }
 
-    public void setRestaurante(Restaurante restaurante) {
+    public void setRestaurante(RestauranteSimplificadoModel restaurante) {
         this.restaurante = restaurante;
     }
 
-    public FormaPagamento getFormaPagamento() {
-        return formaPagamento;
-    }
-
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
-    }
-
-    public Endereco getEndereco() {
+    public EnderecoModel getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(EnderecoModel endereco) {
         this.endereco = endereco;
     }
 
@@ -152,11 +109,12 @@ public class Pedido {
         this.status = status;
     }
 
-    public List<ItemPedido> getItens() {
+    public List<ItemPedidoModel> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemPedido> itens) {
+    public void setItens(List<ItemPedidoModel> itens) {
         this.itens = itens;
     }
 }
+
