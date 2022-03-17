@@ -1,7 +1,8 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
 import com.greatmeals.greatmealsapi.api.assembler.PedidoModelAssembler;
-import com.greatmeals.greatmealsapi.api.model.PedidoModel;
+import com.greatmeals.greatmealsapi.api.assembler.PedidoResumoModelAssembler;
+import com.greatmeals.greatmealsapi.api.model.PedidoResumoModel;
 import com.greatmeals.greatmealsapi.domain.model.Pedido;
 import com.greatmeals.greatmealsapi.domain.service.CadastroPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,18 @@ public class PedidoController {
     @Autowired
     private PedidoModelAssembler pedidoModelAssembler;
 
+    @Autowired
+    private PedidoResumoModelAssembler pedidoResumoModelAssembler;
+
     @GetMapping
-    public List<PedidoModel> listar() {
+    public List<PedidoResumoModel> listar() {
         List<Pedido> pedidosTodos = pedidoService.listarTodos();
 
-        return pedidoModelAssembler.toCollectionModel(pedidosTodos);
+        return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
     }
 
     @GetMapping("/{pedidoId}")
-    public PedidoModel buscar(@PathVariable Long pedidoId) {
+    public PedidoResumoModel buscar(@PathVariable Long pedidoId) {
         Pedido pedido = pedidoService.buscarOuFalhar(pedidoId);
         return pedidoModelAssembler.toModel(pedido);
     }

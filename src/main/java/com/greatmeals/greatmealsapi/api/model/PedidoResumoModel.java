@@ -1,25 +1,20 @@
 package com.greatmeals.greatmealsapi.api.model;
 
-import com.greatmeals.greatmealsapi.domain.model.Status;
+import com.greatmeals.greatmealsapi.domain.model.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.List;
 
-public class PedidoModel {
+public class PedidoResumoModel {
 
     private Long id;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
     private OffsetDateTime dataCriacao;
-    private OffsetDateTime dataConfirmacao;
-    private OffsetDateTime dataEntrega;
     private UsuarioModel cliente;
     private RestauranteSimplificadoModel restaurante;
-    private EnderecoModel endereco;
     private Status status = Status.CRIADO;
-    private List<ItemPedidoModel> itens;
 
     public Long getId() {
         return id;
@@ -61,22 +56,6 @@ public class PedidoModel {
         this.dataCriacao = dataCriacao;
     }
 
-    public OffsetDateTime getDataConfirmacao() {
-        return dataConfirmacao;
-    }
-
-    public void setDataConfirmacao(OffsetDateTime dataConfirmacao) {
-        this.dataConfirmacao = dataConfirmacao;
-    }
-
-    public OffsetDateTime getDataEntrega() {
-        return dataEntrega;
-    }
-
-    public void setDataEntrega(OffsetDateTime dataEntrega) {
-        this.dataEntrega = dataEntrega;
-    }
-
     public UsuarioModel getCliente() {
         return cliente;
     }
@@ -93,28 +72,12 @@ public class PedidoModel {
         this.restaurante = restaurante;
     }
 
-    public EnderecoModel getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(EnderecoModel endereco) {
-        this.endereco = endereco;
-    }
-
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public List<ItemPedidoModel> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemPedidoModel> itens) {
-        this.itens = itens;
     }
 }
 

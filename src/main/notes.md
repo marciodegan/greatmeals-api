@@ -91,4 +91,13 @@
 - Devemos sempre pensar no consumidor da api.
 - Granularidade Fina - temos que tomar cuidado para não deixar o estado do recurso inconsistente. Exemplo: se o endereco do restaurante é obrigatório, mas separamos ele em um sub-recurso (/restaurantes/1/endereco), neste caso, o consumidor pode cadastrar um novo restaurante e, propositalmente ou não, não cadastrar um endereco, deixando o estado desse recurso inconsistente.
 - Isso acaba por exigir uma sequencia para cadastramento (1 cadastrar o endereco, 2 definir o endereco para o restaurante, ...) e isso faz com que as regras da api fiquem do lado do usuario.
--  
+
+### Otimizando a query de pedidos e retornando model resumido na listagem
+- Para fazer um findAll em pedidos, tinhamos um problema de N+1 com muitos selects.
+* Para otimizar e transformar em um unico select:
+@Query("from Pedido p join fetch p.cliente join fetch p.restaurante r join fetch r.cozinha")
+List<Pedido> findAll();
+
+* E Na Entidade Pedido:
+@ManyToOne(fetch = FetchType.LAZY)
+private FormaPagamento formaPagamento;

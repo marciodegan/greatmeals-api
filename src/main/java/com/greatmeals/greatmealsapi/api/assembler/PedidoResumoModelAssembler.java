@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PedidoModelAssembler {
+public class PedidoResumoModelAssembler {
 
     @Autowired
     private ModelMapper modelMapper;
