@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Pedido {
@@ -16,6 +17,16 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String codigo;
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
     @Column(nullable = false)
     private BigDecimal subtotal;
@@ -187,9 +198,14 @@ public class Pedido {
     private void setStatus(Status novoStatus) {
        if (getStatus().naoPodeAlterarPara(novoStatus)){
            throw new NegocioException(
-                   String.format("Status do pedido %d não pode ser alterado de %s para %s",
-                           getId(), getStatus().getDescricao(), novoStatus.getDescricao()));
+                   String.format("Status do pedido %s não pode ser alterado de %s para %s",
+                           getCodigo(), getStatus().getDescricao(), novoStatus.getDescricao()));
        }
        this.status = novoStatus;
+    }
+
+    @PrePersist // método de callback do JPA. Antes de persistir um novo registro de pedido, executa esse método.
+    private void gerarCodigo() {
+        setCodigo(UUID.randomUUID().toString());
     }
 }

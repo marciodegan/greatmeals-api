@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 
 public class PedidoResumoModel {
 
-    private Long id;
+    private String codigo;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
@@ -16,12 +16,12 @@ public class PedidoResumoModel {
     private RestauranteSimplificadoModel restaurante;
     private Status status = Status.CRIADO;
 
-    public Long getId() {
-        return id;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public BigDecimal getSubtotal() {
