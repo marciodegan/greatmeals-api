@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
+import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -148,10 +149,6 @@ public class Pedido {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public List<ItemPedido> getItens() {
         return itens;
     }
@@ -172,11 +169,27 @@ public class Pedido {
         this.valorTotal = this.subtotal.add(this.taxaFrete);
     }
 
-    public void definirFrete() {
-        setTaxaFrete(getRestaurante().getTaxaFrete());
+    public void confirmar() {
+        setStatus(Status.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
     }
 
-    public void atribuirPedidoAosItens() {
-        getItens().forEach(item -> item.setPedido(this));
+    public void entregar() {
+        setStatus(Status.ENTREGUE);
+        setDataEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        setStatus(Status.CANCELADO);
+        setDataEntrega(OffsetDateTime.now()); // necessario criar dataCancelamento
+    }
+
+    private void setStatus(Status novoStatus) {
+       if (getStatus().naoPodeAlterarPara(novoStatus)){
+           throw new NegocioException(
+                   String.format("Status do pedido %d não pode ser alterado de %s para %s",
+                           getId(), getStatus().getDescricao(), novoStatus.getDescricao()));
+       }
+       this.status = novoStatus;
     }
 }
