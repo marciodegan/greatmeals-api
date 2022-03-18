@@ -6,7 +6,7 @@ public class RestauranteModel {
 
     private Long id;
     private String nome;
-    private BigDecimal precoFrete;
+    private BigDecimal taxaFrete;
     private CozinhaModel cozinha;
     private Boolean ativo;
     private Boolean aberto;
@@ -44,12 +44,12 @@ public class RestauranteModel {
         this.nome = nome;
     }
 
-    public BigDecimal getPrecoFrete() {
-        return precoFrete;
+    public BigDecimal getTaxaFrete() {
+        return taxaFrete;
     }
 
-    public void setPrecoFrete(BigDecimal precoFrete) {
-        this.precoFrete = precoFrete;
+    public void setTaxaFrete(BigDecimal taxaFrete) {
+        this.taxaFrete = taxaFrete;
     }
 
     public CozinhaModel getCozinha() {

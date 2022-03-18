@@ -30,10 +30,10 @@ public class Pedido {
     private OffsetDateTime dataCriacao;
 
     @Column(nullable = false)
-    private OffsetDateTime dataConfirmacao;
+    private OffsetDateTime dataConfirmacao = OffsetDateTime.now();
 
     @Column(nullable = false)
-    private OffsetDateTime dataEntrega;
+    private OffsetDateTime dataEntrega = OffsetDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -53,7 +53,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private Status status = Status.CRIADO;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL) // ao salvar o pedido, vai salvar os itens do pedido.
     private List<ItemPedido> itens = new ArrayList<>();
 
     public Long getId() {
@@ -158,5 +158,25 @@ public class Pedido {
 
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    public void calcularValorTotal() {
+        getItens().forEach(ItemPedido::calcularPrecoTotal);
+
+        this.subtotal = getItens().stream()
+                .map(ItemPedido::getPrecoTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        System.out.println(this.taxaFrete);
+
+
+        this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void definirFrete() {
+        setTaxaFrete(getRestaurante().getTaxaFrete());
+    }
+
+    public void atribuirPedidoAosItens() {
+        getItens().forEach(item -> item.setPedido(this));
     }
 }

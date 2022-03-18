@@ -21,6 +21,8 @@ public class RestauranteInput {
     @Valid @NotNull
     private EnderecoInput endereco;
 
+    private String aberto;
+
     public String getNome() {
         return nome;
     }
@@ -51,5 +53,13 @@ public class RestauranteInput {
 
     public void setEndereco(EnderecoInput endereco) {
         this.endereco = endereco;
+    }
+
+    public String getAberto() {
+        return aberto;
+    }
+
+    public void setAberto(String aberto) {
+        this.aberto = aberto;
     }
 }
