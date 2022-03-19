@@ -1,12 +1,10 @@
 package com.greatmeals.greatmealsapi.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.greatmeals.greatmealsapi.domain.model.*;
+import com.greatmeals.greatmealsapi.domain.model.Status;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@JsonFilter("pedidoFilter")
 public class PedidoResumoModel {
 
     private String codigo;

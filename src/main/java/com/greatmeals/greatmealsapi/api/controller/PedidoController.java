@@ -39,33 +39,13 @@ public class PedidoController {
     @Autowired
     private EmissaoPedidoService emissaoPedidoService;
 
+
     @GetMapping
-    public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
-        List<Pedido> pedidos = cadastroPedidoService.listarTodos();
-        List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(pedidos);
+    public List<PedidoResumoModel> listar() {
+        List<Pedido> pedidosTodos = cadastroPedidoService.listarTodos();
 
-        MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosModel);
-
-        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-        filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
-
-        if (StringUtils.isNotBlank(campos)) {
-            filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
-        }
-
-        // Método filterOutAllExcept
-        // filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept("codigo", "valorTotal"));
-        pedidosWrapper.setFilters(filterProvider);
-
-        return pedidosWrapper;
+        return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
     }
-
-//    @GetMapping
-//    public List<PedidoResumoModel> listar() {
-//        List<Pedido> pedidosTodos = cadastroPedidoService.listarTodos();
-//
-//        return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
-//    }
 
     @GetMapping("/{codigoId}")
     public PedidoModel buscar(@PathVariable String codigoId) {
