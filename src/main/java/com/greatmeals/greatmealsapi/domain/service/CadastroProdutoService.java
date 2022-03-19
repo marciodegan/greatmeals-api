@@ -5,6 +5,7 @@ import com.greatmeals.greatmealsapi.domain.exception.FormaPagamentoNaoEncontrada
 import com.greatmeals.greatmealsapi.domain.exception.ProdutoNaoEncontradoException;
 import com.greatmeals.greatmealsapi.domain.model.FormaPagamento;
 import com.greatmeals.greatmealsapi.domain.model.Produto;
+import com.greatmeals.greatmealsapi.domain.model.Restaurante;
 import com.greatmeals.greatmealsapi.domain.repository.FormaPagamentoRepository;
 import com.greatmeals.greatmealsapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Service
 public class CadastroProdutoService {
@@ -27,17 +31,15 @@ public class CadastroProdutoService {
         return produtoRepository.save(produto);
     }
 
-//    @Transactional
-//    public void excluir(Long produtoId) {
-//        try {
-//            produtoRepository.deleteById(produtoId);
-//            produtoRepository.flush();
-//        } catch (EmptyResultDataAccessException e) {
-//            throw new ProdutoNaoEncontradoException(produtoId);
-//        } catch (DataIntegrityViolationException e) {
-//            throw new EntidadeEmUsoException(String.format(MSG_FORMA_PAGAMENTO_EM_USO, produtoId));
-//        }
-//    }
+    @Transactional
+    public List<Produto> listarTodosAtivosByRestaurante(Restaurante restaurante) {
+        return produtoRepository.findAtivosByRestaurante(restaurante);
+    }
+
+    @Transactional
+    public List<Produto> listarTodosByRestaurante(Restaurante restaurante) {
+        return produtoRepository.findTodosByRestaurante(restaurante);
+    }
 
     public Produto buscarOuFalhar(Long restauranteId, Long produtoId) {
         return produtoRepository.findById(restauranteId, produtoId)

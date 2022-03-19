@@ -58,7 +58,7 @@ insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cep, enderec
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 2), (2, 3), (3, 1);
 
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 1', 'Descricao do Produto 1', 50.00, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 1', 'Descricao do Produto 1', 50.00, 0, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 2', 'Descricao do Produto 2', 60.00, 1, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 3', 'Descricao do Produto 3', 70.00, 1, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Produto 4', 'Descricao do Produto 4', 80.00, 1, 2);
