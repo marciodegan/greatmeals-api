@@ -1,8 +1,14 @@
 package com.greatmeals.greatmealsapi.api.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.greatmeals.greatmealsapi.api.model.view.RestauranteView;
+
 public class CozinhaModel {
 
+    @JsonView(RestauranteView.Resumo.class)
     private Long id;
+
+    @JsonView(RestauranteView.Resumo.class)
     private String nome;
 
     public Long getId() {

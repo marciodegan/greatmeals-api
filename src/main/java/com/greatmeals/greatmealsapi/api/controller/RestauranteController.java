@@ -1,9 +1,11 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.greatmeals.greatmealsapi.api.assembler.RestauranteInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.RestauranteModelAssembler;
 import com.greatmeals.greatmealsapi.api.model.RestauranteModel;
 import com.greatmeals.greatmealsapi.api.model.input.RestauranteInput;
+import com.greatmeals.greatmealsapi.api.model.view.RestauranteView;
 import com.greatmeals.greatmealsapi.domain.exception.CidadeNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.CozinhaNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
@@ -40,6 +42,18 @@ public class RestauranteController {
     @GetMapping
     public List<RestauranteModel> listar() {
         return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
+    }
+
+    @JsonView(RestauranteView.Resumo.class)
+    @GetMapping(params = "projecao=resumo")
+    public List<RestauranteModel> listarResumido() {
+        return listar();
+    }
+
+    @JsonView(RestauranteView.ApenasNome.class)
+    @GetMapping(params = "projecao=apenas-nome")
+    public List<RestauranteModel> listarApenasNomes() {
+        return listar();
     }
 
     @GetMapping("/{restauranteId}")
