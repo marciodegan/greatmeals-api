@@ -1,5 +1,7 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoModelAssembler;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoResumoModelAssembler;
@@ -10,7 +12,9 @@ import com.greatmeals.greatmealsapi.domain.model.Pedido;
 import com.greatmeals.greatmealsapi.domain.model.Usuario;
 import com.greatmeals.greatmealsapi.domain.service.CadastroPedidoService;
 import com.greatmeals.greatmealsapi.domain.service.EmissaoPedidoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,11 +40,32 @@ public class PedidoController {
     private EmissaoPedidoService emissaoPedidoService;
 
     @GetMapping
-    public List<PedidoResumoModel> listar() {
-        List<Pedido> pedidosTodos = cadastroPedidoService.listarTodos();
+    public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
+        List<Pedido> pedidos = cadastroPedidoService.listarTodos();
+        List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(pedidos);
 
-        return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
+        MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosModel);
+
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+        filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
+
+        if (StringUtils.isNotBlank(campos)) {
+            filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+        }
+
+        // Método filterOutAllExcept
+        // filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept("codigo", "valorTotal"));
+        pedidosWrapper.setFilters(filterProvider);
+
+        return pedidosWrapper;
     }
+
+//    @GetMapping
+//    public List<PedidoResumoModel> listar() {
+//        List<Pedido> pedidosTodos = cadastroPedidoService.listarTodos();
+//
+//        return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
+//    }
 
     @GetMapping("/{codigoId}")
     public PedidoModel buscar(@PathVariable String codigoId) {
