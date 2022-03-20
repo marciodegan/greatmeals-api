@@ -10,8 +10,10 @@ import com.greatmeals.greatmealsapi.api.model.PedidoResumoModel;
 import com.greatmeals.greatmealsapi.api.model.input.PedidoInput;
 import com.greatmeals.greatmealsapi.domain.model.Pedido;
 import com.greatmeals.greatmealsapi.domain.model.Usuario;
+import com.greatmeals.greatmealsapi.domain.repository.filter.PedidoFilter;
 import com.greatmeals.greatmealsapi.domain.service.CadastroPedidoService;
 import com.greatmeals.greatmealsapi.domain.service.EmissaoPedidoService;
+import com.greatmeals.greatmealsapi.infrastructure.repository.spec.PedidoSpecs;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -41,8 +43,8 @@ public class PedidoController {
 
 
     @GetMapping
-    public List<PedidoResumoModel> listar() {
-        List<Pedido> pedidosTodos = cadastroPedidoService.listarTodos();
+    public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
+        List<Pedido> pedidosTodos = cadastroPedidoService.pesquisar(filtro);
 
         return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
     }

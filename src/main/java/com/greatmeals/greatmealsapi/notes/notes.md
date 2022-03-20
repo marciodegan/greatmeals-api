@@ -101,3 +101,7 @@ List<Pedido> findAll();
 * E Na Entidade Pedido:
 @ManyToOne(fetch = FetchType.LAZY)
 private FormaPagamento formaPagamento;
+
+
+### Implementando pesquisas complexas na API
+![Screenshot](screenshot1.png)
