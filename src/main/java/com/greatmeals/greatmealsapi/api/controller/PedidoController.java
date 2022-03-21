@@ -1,7 +1,5 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.google.common.collect.ImmutableMap;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoModelAssembler;
@@ -12,17 +10,14 @@ import com.greatmeals.greatmealsapi.api.model.input.PedidoInput;
 import com.greatmeals.greatmealsapi.core.data.PageableTranslator;
 import com.greatmeals.greatmealsapi.domain.model.Pedido;
 import com.greatmeals.greatmealsapi.domain.model.Usuario;
-import com.greatmeals.greatmealsapi.domain.repository.filter.PedidoFilter;
+import com.greatmeals.greatmealsapi.domain.filter.PedidoFilter;
 import com.greatmeals.greatmealsapi.domain.service.CadastroPedidoService;
 import com.greatmeals.greatmealsapi.domain.service.EmissaoPedidoService;
-import com.greatmeals.greatmealsapi.infrastructure.repository.spec.PedidoSpecs;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

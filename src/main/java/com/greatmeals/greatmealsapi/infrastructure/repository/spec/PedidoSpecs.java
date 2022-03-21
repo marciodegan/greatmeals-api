@@ -1,7 +1,7 @@
 package com.greatmeals.greatmealsapi.infrastructure.repository.spec;
 
 import com.greatmeals.greatmealsapi.domain.model.Pedido;
-import com.greatmeals.greatmealsapi.domain.repository.filter.PedidoFilter;
+import com.greatmeals.greatmealsapi.domain.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;

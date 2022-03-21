@@ -1,12 +1,10 @@
-package com.greatmeals.greatmealsapi.domain.repository.filter;
+package com.greatmeals.greatmealsapi.domain.filter;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.OffsetDateTime;
 
-public class PedidoFilter {
-
-    private Long clienteId;
+public class VendaDiariaFilter {
 
     private Long restauranteId;
 
@@ -15,14 +13,6 @@ public class PedidoFilter {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime dataCriacaoFim;
-
-    public Long getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
 
     public Long getRestauranteId() {
         return restauranteId;
