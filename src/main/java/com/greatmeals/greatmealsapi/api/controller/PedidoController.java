@@ -2,12 +2,14 @@ package com.greatmeals.greatmealsapi.api.controller;
 
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.google.common.collect.ImmutableMap;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoModelAssembler;
 import com.greatmeals.greatmealsapi.api.assembler.PedidoResumoModelAssembler;
 import com.greatmeals.greatmealsapi.api.model.PedidoModel;
 import com.greatmeals.greatmealsapi.api.model.PedidoResumoModel;
 import com.greatmeals.greatmealsapi.api.model.input.PedidoInput;
+import com.greatmeals.greatmealsapi.core.data.PageableTranslator;
 import com.greatmeals.greatmealsapi.domain.model.Pedido;
 import com.greatmeals.greatmealsapi.domain.model.Usuario;
 import com.greatmeals.greatmealsapi.domain.repository.filter.PedidoFilter;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +49,9 @@ public class PedidoController {
 
 
     @GetMapping
-    public Page<PedidoModel> pesquisar(PedidoFilter filtro, Pageable pageable) {
+    public Page<PedidoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+        pageable = traduzirPageable(pageable);
+
         Page<Pedido> pedidosPage = cadastroPedidoService.pesquisar(filtro, pageable);
 
         List<PedidoModel> pedidosModel = pedidoModelAssembler.toCollectionModel(pedidosPage.getContent());
@@ -72,5 +77,14 @@ public class PedidoController {
         emissaoPedidoService.emitir(pedido);
 
         return pedidoResumoModelAssembler.toModel(pedido);
+    }
+
+    private Pageable traduzirPageable(Pageable apiPageable) {
+        var mapeamento = ImmutableMap.of(
+                "nomeCliente", "cliente.nome",
+                "restaurante.nome", "restaurante.nome",
+                "valorTotal", "valorTotal"
+        );
+        return PageableTranslator.translate(apiPageable, mapeamento);
     }
 }
