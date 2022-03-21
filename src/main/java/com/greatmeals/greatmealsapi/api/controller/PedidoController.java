@@ -16,6 +16,9 @@ import com.greatmeals.greatmealsapi.domain.service.EmissaoPedidoService;
 import com.greatmeals.greatmealsapi.infrastructure.repository.spec.PedidoSpecs;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,10 +46,14 @@ public class PedidoController {
 
 
     @GetMapping
-    public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
-        List<Pedido> pedidosTodos = cadastroPedidoService.pesquisar(filtro);
+    public Page<PedidoModel> pesquisar(PedidoFilter filtro, Pageable pageable) {
+        Page<Pedido> pedidosPage = cadastroPedidoService.pesquisar(filtro, pageable);
 
-        return pedidoResumoModelAssembler.toCollectionModel(pedidosTodos);
+        List<PedidoModel> pedidosModel = pedidoModelAssembler.toCollectionModel(pedidosPage.getContent());
+
+        Page<PedidoModel> pedidosModelPage = new PageImpl<>(pedidosModel, pageable, pedidosPage.getTotalElements());
+
+        return pedidosModelPage;
     }
 
     @GetMapping("/{codigoId}")

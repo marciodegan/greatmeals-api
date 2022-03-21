@@ -11,8 +11,10 @@ public class PedidoSpecs {
 
     public static Specification<Pedido> usandoFiltro(PedidoFilter filtro) {
         return (root, query, builder) -> {
-            root.fetch("restaurante").fetch("cozinha"); // resolve problema N+1 das consultas do hibernate
-            root.fetch("cliente"); // resolve problema N+1 das consultas do hibernate
+            if (Pedido.class.equals(query.getResultType())) { // se o que tá retornando é um pedido, faz o fetch
+                root.fetch("restaurante").fetch("cozinha"); // resolve problema N+1 das consultas do hibernate
+                root.fetch("cliente"); // resolve problema N+1 das consultas do hibernate
+            }
 
             var predicates = new ArrayList<Predicate>();
 
