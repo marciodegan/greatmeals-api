@@ -105,3 +105,6 @@ private FormaPagamento formaPagamento;
 
 ### Implementando pesquisas complexas na API
 ![Screenshot](screenshot1.png)
+
+### Tratando time offset na agregação de vendas diárias por data
+![Screenshot](screenshot2.png)

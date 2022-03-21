@@ -1,7 +1,6 @@
 package com.greatmeals.greatmealsapi.domain.model.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class VendaDiaria {
