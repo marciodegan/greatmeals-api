@@ -1,10 +1,18 @@
 package com.greatmeals.greatmealsapi.api.model.input;
 
+import com.greatmeals.greatmealsapi.core.validation.FileSize;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class FotoProdutoInput {
 
+    @NotNull
+    @FileSize(max="700KB")
     private MultipartFile arquivo;
+
+    @NotBlank
     private String descricao;
 
     public MultipartFile getArquivo() {
