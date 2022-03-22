@@ -65,4 +65,11 @@ public class FotoProduto {
     public void setTamanho(Long tamanho) {
         this.tamanho = tamanho;
     }
+
+    public Long getRestauranteId() {
+        if (getProduto() != null) {
+            return produto.getRestaurante().getId();
+        }
+        return null;
+    }
 }
