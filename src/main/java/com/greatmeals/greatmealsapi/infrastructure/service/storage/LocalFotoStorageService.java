@@ -11,7 +11,7 @@ import java.nio.file.Path;
 @Service
 public class LocalFotoStorageService implements FotoStorageService {
 
-    @Value("{greatmeals.storage.local.diretorio-fotos}")
+    @Value("${greatmeals.storage.local.diretorio-fotos}")
     private Path diretorioFotos;
 
     @Override
