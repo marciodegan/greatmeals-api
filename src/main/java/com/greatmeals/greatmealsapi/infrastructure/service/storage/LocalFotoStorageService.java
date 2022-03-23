@@ -35,6 +35,16 @@ public class LocalFotoStorageService implements FotoStorageService {
         }
     }
 
+    @Override
+    public void excluir(NovaFoto novaFoto) {
+        try{
+            Path arquivoPath = getArquivoPath(novaFoto.getNomeArquivo());
+            Files.delete(arquivoPath);
+        } catch (Exception e) {
+            throw new StorageException("Não foi possível remover arquivo", e);
+        }
+    }
+
     private Path getArquivoPath(String nomeArquivo) {
         return diretorioFotos.resolve(Path.of(nomeArquivo));
     }
