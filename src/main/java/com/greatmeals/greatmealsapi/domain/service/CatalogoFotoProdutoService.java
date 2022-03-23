@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.domain.service;
 
+import com.greatmeals.greatmealsapi.domain.exception.FotoProdutoNaoEncontradaException;
 import com.greatmeals.greatmealsapi.domain.model.FotoProduto;
 import com.greatmeals.greatmealsapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,10 @@ public class CatalogoFotoProdutoService {
 
         fotoStorageService.armazenar(novaFoto);
         return foto;
+    }
+
+    public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(produtoId, restauranteId));
     }
 }

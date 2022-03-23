@@ -9,17 +9,11 @@ import com.greatmeals.greatmealsapi.domain.service.CadastroProdutoService;
 import com.greatmeals.greatmealsapi.domain.service.CatalogoFotoProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Access;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
@@ -52,6 +46,12 @@ public class RestauranteProdutoFotoController {
         FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(foto, arquivo.getInputStream());
 
         return fotoProdutoModelAssembler.toModel(fotoSalva);
+    }
 
+    @GetMapping
+    public FotoProdutoModel recuperarFoto(@PathVariable Long restauranteId,
+                                          @PathVariable Long produtoId) {
+        FotoProduto fotoProduto = catalogoFotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
+        return fotoProdutoModelAssembler.toModel(fotoProduto);
     }
 }
