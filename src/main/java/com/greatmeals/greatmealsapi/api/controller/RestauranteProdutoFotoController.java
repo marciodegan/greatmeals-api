@@ -13,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
@@ -63,19 +66,41 @@ public class RestauranteProdutoFotoController {
         return fotoProdutoModelAssembler.toModel(fotoProduto);
     }
 
-    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping
     public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
-                                                          @PathVariable Long produtoId) {
+                                                          @PathVariable Long produtoId,
+                                                          @RequestHeader(name = "accept") String acceptHeader)
+            throws HttpMediaTypeNotAcceptableException{
         try {
             FotoProduto fotoProduto = catalogoFotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
+
+            // O consumidor da API vai passar no accept os tipos que ele aceita (image/png,image/jpeg) ou passar nenhum
+            // recebe no argumento acceptHeader onde foi feito bind com o @RequestHeader, especificado com nome do header ("accept")
+
+            // Instancio um tipo MediaType, que é o MediaType real do arquivo da foto.
+            MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
+            // depois faz um parse do cabecalho em uma lista, pois pode ser passado mais de um (image/png,image/jpeg)
+            List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
+            verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
 
             InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
+                    .contentType(mediaTypeFoto)
                     .body(new InputStreamResource(inputStream));
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EntidadeNaoEncontradaException | HttpMediaTypeNotAcceptableException e) {
             return ResponseEntity.notFound().build();
         }
     }
+
+    private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto,
+                                                   List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
+        boolean compativel = mediaTypesAceitas.stream()
+                .anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
+
+        if (!compativel) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
+        }
+    }
 }
+// isCompatibleWith aceita também se passar no accept -> image/*
