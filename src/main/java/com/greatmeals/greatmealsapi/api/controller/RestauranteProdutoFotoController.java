@@ -11,6 +11,7 @@ import com.greatmeals.greatmealsapi.domain.service.CatalogoFotoProdutoService;
 import com.greatmeals.greatmealsapi.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,27 +69,29 @@ public class RestauranteProdutoFotoController {
     }
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
+    public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
                                                           @PathVariable Long produtoId,
                                                           @RequestHeader(name = "accept") String acceptHeader)
-            throws HttpMediaTypeNotAcceptableException{
+            throws HttpMediaTypeNotAcceptableException {
         try {
             FotoProduto fotoProduto = catalogoFotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
 
-            // O consumidor da API vai passar no accept os tipos que ele aceita (image/png,image/jpeg) ou passar nenhum
-            // recebe no argumento acceptHeader onde foi feito bind com o @RequestHeader, especificado com nome do header ("accept")
-
-            // Instancio um tipo MediaType, que é o MediaType real do arquivo da foto.
             MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
-            // depois faz um parse do cabecalho em uma lista, pois pode ser passado mais de um (image/png,image/jpeg)
+
             List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
             verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
 
-            InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
+            FotoStorageService.FotoRecuperada fotoRecuperada = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
 
-            return ResponseEntity.ok()
-                    .contentType(mediaTypeFoto)
-                    .body(new InputStreamResource(inputStream));
+            if (fotoRecuperada.temUrl()) {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, fotoRecuperada.getUrl())
+                        .build();
+            } else {
+                return ResponseEntity.ok()
+                        .contentType(mediaTypeFoto)
+                        .body(new InputStreamResource(fotoRecuperada.getInputStream()));
+            }
         } catch (EntidadeNaoEncontradaException | HttpMediaTypeNotAcceptableException e) {
             return ResponseEntity.notFound().build();
         }

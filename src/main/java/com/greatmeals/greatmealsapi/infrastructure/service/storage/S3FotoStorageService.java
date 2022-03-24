@@ -10,7 +10,7 @@ import com.greatmeals.greatmealsapi.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
+import java.net.URL;
 
 @Service
 public class S3FotoStorageService implements FotoStorageService {
@@ -22,8 +22,12 @@ public class S3FotoStorageService implements FotoStorageService {
     private StorageProperties storageProperties;
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
-        return null;
+    public FotoRecuperada recuperar(String nomeArquivo) {
+        String caminhoArquivo = getCaminhoArquivo(nomeArquivo);
+
+        URL url = amazonS3.getUrl(storageProperties.getS3().getBucket(), caminhoArquivo);
+        FotoRecuperada fotoRecuperada = new FotoRecuperada(url.toString());
+        return fotoRecuperada;
     }
 
     @Override
@@ -48,7 +52,6 @@ public class S3FotoStorageService implements FotoStorageService {
             throw new StorageException("Não foi possivel enviar arquivo para S3", e);
         }
     }
-
 
     @Override
     public void excluir(String nomeArquivo) {

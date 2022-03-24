@@ -3,7 +3,6 @@ package com.greatmeals.greatmealsapi.infrastructure.service.storage;
 import com.greatmeals.greatmealsapi.core.storage.StorageProperties;
 import com.greatmeals.greatmealsapi.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.InputStream;
@@ -17,10 +16,13 @@ public class LocalFotoStorageService implements FotoStorageService {
     private StorageProperties storageProperties;
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
+    public FotoRecuperada recuperar(String nomeArquivo) {
         try {
             Path arquivoPath = getArquivoPath(nomeArquivo);
-            return Files.newInputStream(arquivoPath);
+
+            FotoRecuperada fotoRecuperada = new FotoRecuperada(Files.newInputStream(arquivoPath));
+
+            return fotoRecuperada;
         } catch (Exception e) {
             throw new StorageException("Não foi possivel recuperar o arquivo", e);
         }
@@ -36,10 +38,11 @@ public class LocalFotoStorageService implements FotoStorageService {
         }
     }
 
+
     @Override
-    public void excluir(NovaFoto novaFoto) {
+    public void excluir(String nomeArquivo) {
         try{
-            Path arquivoPath = getArquivoPath(novaFoto.getNomeArquivo());
+            Path arquivoPath = getArquivoPath(nomeArquivo);
             Files.delete(arquivoPath);
         } catch (Exception e) {
             throw new StorageException("Não foi possível remover arquivo", e);

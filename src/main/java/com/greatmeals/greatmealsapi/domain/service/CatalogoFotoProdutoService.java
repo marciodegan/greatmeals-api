@@ -47,17 +47,14 @@ public class CatalogoFotoProdutoService {
     public void remover(FotoProduto foto) {
         Long restauranteId = foto.getRestauranteId();
         Long produtoId = foto.getProduto().getId();
-        String nomeNovoArquivo = fotoStorageService.gerarNomeArquivo(foto.getNomeArquivo());
 
         Optional<FotoProduto> fotoExistente = produtoRepository.findFotoById(restauranteId, produtoId);
 
         if (fotoExistente.isPresent()) {
             produtoRepository.delete(fotoExistente.get());
         }
-        FotoStorageService.NovaFoto novaFoto = new FotoStorageService.NovaFoto(
-                fotoExistente.get().getNomeArquivo());
 
-        fotoStorageService.excluir(novaFoto);
+        fotoStorageService.excluir(fotoExistente.get().getNomeArquivo());
     }
 
     public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
