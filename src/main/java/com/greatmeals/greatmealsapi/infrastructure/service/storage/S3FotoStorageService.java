@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.infrastructure.service.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.greatmeals.greatmealsapi.core.storage.StorageProperties;
@@ -41,19 +42,30 @@ public class S3FotoStorageService implements FotoStorageService {
                     objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead);
 
-        amazonS3.putObject(putObjectRequest);
+            amazonS3.putObject(putObjectRequest);
 
         } catch (Exception e) {
             throw new StorageException("Não foi possivel enviar arquivo para S3", e);
         }
     }
 
-    private String getCaminhoArquivo(String nomeArquivo) {
-        return String.format("%s/%s", storageProperties.getS3().getDiretorioFotos(), nomeArquivo);
-    }
 
     @Override
-    public void excluir(NovaFoto novaFoto) {
+    public void excluir(String nomeArquivo) {
+        try {
+            String caminhoArquivo = getCaminhoArquivo(nomeArquivo);
 
+            var deleteObjectRequest = new DeleteObjectRequest(
+                    storageProperties.getS3().getBucket(), caminhoArquivo);
+
+            amazonS3.deleteObject(deleteObjectRequest);
+
+        } catch (Exception e) {
+            throw new StorageException("Não foi possível excluir arquivo na Amazon S3", e);
+        }
+    }
+
+    private String getCaminhoArquivo(String nomeArquivo) {
+        return String.format("%s/%s", storageProperties.getS3().getDiretorioFotos(), nomeArquivo);
     }
 }

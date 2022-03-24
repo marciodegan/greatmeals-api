@@ -9,11 +9,12 @@ public interface FotoStorageService {
 
     void armazenar(NovaFoto novaFoto);
 
-    void excluir(NovaFoto novaFoto);
+    void excluir(String nomeArquivo);
 
     default String gerarNomeArquivo(String nomeOriginal) {
         return UUID.randomUUID().toString() + "_" + nomeOriginal;
     }
+
     class NovaFoto {
         private String nomeArquivo;
         private InputStream inputStream;
