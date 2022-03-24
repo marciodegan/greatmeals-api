@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.domain.service;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface EnvioEmailService {
@@ -10,11 +11,22 @@ public interface EnvioEmailService {
         private Set<String> destinatarios;
         private String assunto;
         private String corpo;
+        private Map<String, Object> variaveis;
 
-        public Mensagem(Set<String> destinatarios, String assunto, String corpo) {
+
+        public Map<String, Object> getVariaveis() {
+            return variaveis;
+        }
+
+        public void setVariaveis(Map<String, Object> variaveis) {
+            this.variaveis = variaveis;
+        }
+
+        public Mensagem(Set<String> destinatarios, String assunto, String corpo, Map<String, Object> variaveis) {
             this.destinatarios = destinatarios;
             this.assunto = assunto;
             this.corpo = corpo;
+            this.variaveis = variaveis;
         }
 
         public Set<String> getDestinatarios() {

@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -25,10 +27,13 @@ public class FluxoPedidoService {
         Set<String> destinatarios = new HashSet<>();
         destinatarios.add(pedido.getCliente().getEmail());
 
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("nome", pedido.getCliente().getNome());
+
         var mensagem = new EnvioEmailService.Mensagem(destinatarios,
                 pedido.getRestaurante().getNome()
                         + " - Pedido Confirmado",
-                "Corpo do Email");
+                "pedido-confirmado.html", variaveis);
 
         envioEmailService.enviar(mensagem);
     }
