@@ -12,6 +12,19 @@ public class StorageProperties {
 
     private Local local = new Local();
     private S3 s3 = new S3();
+    private TipoStorage tipo = TipoStorage.LOCAL;
+
+    public TipoStorage getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoStorage tipo) {
+        this.tipo = tipo;
+    }
+
+    public enum TipoStorage {
+        LOCAL, S3
+    }
 
     public class Local {
         private Path diretorioFotos;
