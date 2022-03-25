@@ -13,6 +13,12 @@ public interface EnvioEmailService {
         private String corpo;
         private Map<String, Object> variaveis;
 
+        public Mensagem(Set<String> destinatarios, String assunto, String corpo, Map<String, Object> variaveis) {
+            this.destinatarios = destinatarios;
+            this.assunto = assunto;
+            this.corpo = corpo;
+            this.variaveis = variaveis;
+        }
 
         public Map<String, Object> getVariaveis() {
             return variaveis;
@@ -22,12 +28,6 @@ public interface EnvioEmailService {
             this.variaveis = variaveis;
         }
 
-        public Mensagem(Set<String> destinatarios, String assunto, String corpo, Map<String, Object> variaveis) {
-            this.destinatarios = destinatarios;
-            this.assunto = assunto;
-            this.corpo = corpo;
-            this.variaveis = variaveis;
-        }
 
         public Set<String> getDestinatarios() {
             return destinatarios;

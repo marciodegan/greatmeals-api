@@ -6,13 +6,27 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 
-@Validated // para o @NotNull funcionar
+@Validated
 @ConfigurationProperties("greatmeals.email")
 @Component
 public class EmailProperties {
 
-    @NotNull // se esquercermos dessa propriedade, a aplicação nem sobe.
+    private Implementacao impl = Implementacao.FAKE;
+
+    @NotNull
     private String remetente;
+
+    public enum Implementacao {
+        SMTP, FAKE
+    }
+
+    public Implementacao getImpl() {
+        return impl;
+    }
+
+    public void setImpl(Implementacao impl) {
+        this.impl = impl;
+    }
 
     public String getRemetente() {
         return remetente;

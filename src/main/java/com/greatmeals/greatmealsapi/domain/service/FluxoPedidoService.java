@@ -28,7 +28,7 @@ public class FluxoPedidoService {
         destinatarios.add(pedido.getCliente().getEmail());
 
         Map<String, Object> variaveis = new HashMap<>();
-        variaveis.put("nome", pedido.getCliente().getNome());
+        variaveis.put("pedido", pedido);
 
         var mensagem = new EnvioEmailService.Mensagem(destinatarios,
                 pedido.getRestaurante().getNome()
