@@ -11,13 +11,18 @@ import javax.validation.constraints.NotNull;
 @Component
 public class EmailProperties {
 
+    private Sandbox sandbox = new Sandbox();
     private Implementacao impl = Implementacao.FAKE;
 
     @NotNull
     private String remetente;
 
     public enum Implementacao {
-        SMTP, FAKE
+        SMTP, FAKE, SANDBOX
+    }
+
+    public Sandbox getSandbox() {
+        return sandbox;
     }
 
     public Implementacao getImpl() {
@@ -34,5 +39,18 @@ public class EmailProperties {
 
     public void setRemetente(String remetente) {
         this.remetente = remetente;
+    }
+
+    public class Sandbox {
+
+        private String destinatario;
+
+        public String getDestinatario() {
+            return destinatario;
+        }
+
+        public void setDestinatario(String destinatario) {
+            this.destinatario = destinatario;
+        }
     }
 }
