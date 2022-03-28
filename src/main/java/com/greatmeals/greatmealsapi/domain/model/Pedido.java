@@ -1,18 +1,19 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
+import com.greatmeals.greatmealsapi.domain.event.PedidoConfirmadoEvent;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
+import com.greatmeals.greatmealsapi.domain.service.EnvioEmailService;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-public class Pedido {
+public class Pedido extends AbstractAggregateRoot<Pedido> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -183,6 +184,8 @@ public class Pedido {
     public void confirmar() {
         setStatus(Status.CONFIRMADO);
         setDataConfirmacao(OffsetDateTime.now());
+
+        registerEvent(new PedidoConfirmadoEvent(this));
     }
 
     public void entregar() {

@@ -108,3 +108,11 @@ private FormaPagamento formaPagamento;
 
 ### Tratando time offset na agregação de vendas diárias por data
 ![Screenshot](screenshot2.png)
+
+# Publicando Domain Events a partir do Aggregate Root
+- Publicação de eventos deve ser feito sempre no Aggregate Root
+- Toda alteração que fazemos num agregado, por exemplo - pedido e item pedido, deve ser feita a partir do agregate root - no caso, pedido.
+- Tiramos a responsabilidade de enviar email da classe fluxo pedido, tirando todas as dependencias.
+- Se precisarmos adicionar um novo requisito, uma nova funcionalidade, não é necessário mexer na classe FluxoPedido. Mas só criar um novo listener.
+
+
