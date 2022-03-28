@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.domain.model;
 
+import com.greatmeals.greatmealsapi.domain.event.PedidoCanceladoEvent;
 import com.greatmeals.greatmealsapi.domain.event.PedidoConfirmadoEvent;
 import com.greatmeals.greatmealsapi.domain.exception.NegocioException;
 import com.greatmeals.greatmealsapi.domain.service.EnvioEmailService;
@@ -196,6 +197,8 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
     public void cancelar() {
         setStatus(Status.CANCELADO);
         setDataEntrega(OffsetDateTime.now()); // necessario criar dataCancelamento
+
+        registerEvent(new PedidoCanceladoEvent(this));
     }
 
     private void setStatus(Status novoStatus) {
