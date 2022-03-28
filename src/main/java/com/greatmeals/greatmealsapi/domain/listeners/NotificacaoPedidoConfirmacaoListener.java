@@ -4,8 +4,9 @@ import com.greatmeals.greatmealsapi.domain.event.PedidoConfirmadoEvent;
 import com.greatmeals.greatmealsapi.domain.model.Pedido;
 import com.greatmeals.greatmealsapi.domain.service.EnvioEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ public class NotificacaoPedidoConfirmacaoListener {
     @Autowired
     private EnvioEmailService envioEmailService;
 
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void aoConfirmarPedido(PedidoConfirmadoEvent event) {
 
         Pedido pedido = event.getPedido();

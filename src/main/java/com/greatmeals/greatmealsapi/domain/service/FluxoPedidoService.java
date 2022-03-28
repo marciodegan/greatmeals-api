@@ -21,6 +21,7 @@ public class FluxoPedidoService {
         pedido.confirmar();
 
         pedidoRepository.save(pedido);
+
     }
 
     @Transactional
