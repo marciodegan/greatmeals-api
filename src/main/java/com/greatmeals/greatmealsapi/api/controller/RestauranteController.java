@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://www.greatmeals.local:8000")
 @RestController
 @RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestauranteController {
@@ -43,15 +43,11 @@ public class RestauranteController {
     private RestauranteRepository restauranteRepository;
 
 
+//    @CrossOrigin
     @JsonView(RestauranteView.Resumo.class)
     @GetMapping
-    public ResponseEntity<List<RestauranteModel>> listar() {
-        List<RestauranteModel> restaurantesModel = restauranteModelAssembler
-                .toCollectionModel(restauranteRepository.findAll());
-        return ResponseEntity.ok()
-//                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://www.greatmeals.local:8000")
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                .body(restaurantesModel);
+    public List<RestauranteModel> listar() {
+        return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
 //    @JsonView(RestauranteView.ApenasNome.class)
