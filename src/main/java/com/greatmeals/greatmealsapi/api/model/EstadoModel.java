@@ -1,8 +1,13 @@
 package com.greatmeals.greatmealsapi.api.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class EstadoModel {
 
+    @ApiModelProperty(example = "1")
     private Long id;
+
+    @ApiModelProperty(example = "Minas Gerais")
     private String nome;
 
     public Long getId() {

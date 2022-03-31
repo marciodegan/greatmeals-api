@@ -1,11 +1,14 @@
 package com.greatmeals.greatmealsapi.api.model.input;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class CidadeInput {
 
+    @ApiModelProperty(example = "Ceará")
     @NotBlank
     private String nome;
 

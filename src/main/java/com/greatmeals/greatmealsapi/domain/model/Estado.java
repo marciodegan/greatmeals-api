@@ -16,6 +16,10 @@ public class Estado {
     @Column(nullable = false)
     private String nome;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
