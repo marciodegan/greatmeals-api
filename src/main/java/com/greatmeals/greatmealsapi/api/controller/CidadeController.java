@@ -10,6 +10,7 @@ import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCidadeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,16 +36,19 @@ public class CidadeController {
     @Autowired
     private CadastroCidadeService cidadeService;
 
+    @ApiOperation("Lista as cidades")
     @GetMapping
     public List<CidadeModel> listar() {
         return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
     }
 
+    @ApiOperation("Busca uma cidade por id")
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         return cidadeModelAssembler.toModel(cidadeService.buscarOuFalhar(cidadeId));
     }
 
+    @ApiOperation("Adiciona uma nova cidade")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -56,6 +60,7 @@ public class CidadeController {
         }
     }
 
+    @ApiOperation("Atualiza uma cidade por id")
     @PutMapping("/{cidadeId}")
     public CidadeModel atualizar(@PathVariable Long cidadeId,
                                  @RequestBody @Valid CidadeInput cidadeInput) {
@@ -71,6 +76,7 @@ public class CidadeController {
         }
     }
 
+    @ApiOperation("Exclui uma cidade por id")
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cidadeId) {
