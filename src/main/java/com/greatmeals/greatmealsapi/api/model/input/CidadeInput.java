@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 public class CidadeInput {
 
-    @ApiModelProperty(example = "Ceará")
+    @ApiModelProperty(example = "Fortaleza", required = true)
     @NotBlank
     private String nome;
 
