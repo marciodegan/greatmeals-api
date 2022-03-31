@@ -42,6 +42,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .build()
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, globalGetResponseMessage())
+                .globalResponseMessage(RequestMethod.POST, globalPostAndPutResponseMessage())
+                .globalResponseMessage(RequestMethod.PUT, globalPostAndPutResponseMessage())
+                .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"));
     }
@@ -59,7 +62,37 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         );
     }
 
-    public ApiInfo apiInfo() {
+    private List<ResponseMessage> globalPostAndPutResponseMessage() {
+        return Arrays.asList(
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.FORBIDDEN.value())
+                        .message("Não permitido")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.UNAUTHORIZED.value())
+                        .message("Não autorizado")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.NOT_FOUND.value())
+                        .message("Não encontrado")
+                        .build()
+        );
+    }
+
+    private List<ResponseMessage> globalDeleteResponseMessages() {
+        return Arrays.asList(
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.BAD_REQUEST.value())
+                        .message("Requisição inválida (erro do cliente)")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message("Erro interno no servidor")
+                        .build()
+        );
+    }
+
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("GreatMeals API")
                 .description("Api aberta para clientes e restuarnates")
