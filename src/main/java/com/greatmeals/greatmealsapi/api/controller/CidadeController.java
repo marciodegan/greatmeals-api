@@ -11,6 +11,7 @@ import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCidadeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,14 +45,15 @@ public class CidadeController {
 
     @ApiOperation("Busca uma cidade por id")
     @GetMapping("/{cidadeId}")
-    public CidadeModel buscar(@PathVariable Long cidadeId) {
+    public CidadeModel buscar(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId) {
         return cidadeModelAssembler.toModel(cidadeService.buscarOuFalhar(cidadeId));
     }
 
     @ApiOperation("Adiciona uma nova cidade")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
+    public CidadeModel adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+                                     @RequestBody @Valid CidadeInput cidadeInput) {
         try {
             Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
             return cidadeModelAssembler.toModel(cidadeService.salvar(cidade));
@@ -62,7 +64,8 @@ public class CidadeController {
 
     @ApiOperation("Atualiza uma cidade por id")
     @PutMapping("/{cidadeId}")
-    public CidadeModel atualizar(@PathVariable Long cidadeId,
+    public CidadeModel atualizar(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId,
+                                 @ApiParam(name = "corpo", value = "Representação de uma cidade com novos dados")
                                  @RequestBody @Valid CidadeInput cidadeInput) {
         try {
             Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
@@ -79,7 +82,7 @@ public class CidadeController {
     @ApiOperation("Exclui uma cidade por id")
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long cidadeId) {
+    public void remover(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId) {
         cidadeService.excluir(cidadeId);
     }
 
