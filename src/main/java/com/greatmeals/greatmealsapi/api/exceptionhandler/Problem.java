@@ -2,21 +2,37 @@ package com.greatmeals.greatmealsapi.api.exceptionhandler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@ApiModel("Problema")
 @JsonInclude(Include.NON_NULL)
 public class Problem {
 
+    @ApiModelProperty(example = "400", position = 1)
     private Integer status;
+
+    @ApiModelProperty(example = "https://greatmeals.com.br/dados-inválidos", position = 2)
     private String type;
+
+    @ApiModelProperty(example = "Dados invalidos", position = 3)
     private String title;
+
+    @ApiModelProperty(example = "Um ou mais campos estão invalidos.", position = 4 )
     private String detail;
+
+    @ApiModelProperty(example = "Um ou mais campos estão invalidos.", position = 5)
     private String userMessage;
+
+    @ApiModelProperty(example = "2022-03-31T21:31:46Z", position = 6)
     private OffsetDateTime timestamp;
+
+    @ApiModelProperty(value = "Lista de objetos ou campos que geraram o erro (opcional)", position = 7)
     private List<Object> objects;
 
 
@@ -81,6 +97,7 @@ public class Problem {
         return objects;
     }
 
+    @ApiModel("ObjetoProblema")
     public static class Object {
         private String name;
         private String userMessage;

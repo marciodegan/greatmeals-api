@@ -1,6 +1,8 @@
 package com.greatmeals.greatmealsapi.core.openapi;
 
+import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Predicates;
+import com.greatmeals.greatmealsapi.api.exceptionhandler.Problem;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,6 +23,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     @Bean
     public Docket apiDocket() {
+
+        var typeResolver = new TypeResolver();
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.greatmeals.greatmealsapi.api"))
@@ -45,6 +51,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.POST, globalPostAndPutResponseMessage())
                 .globalResponseMessage(RequestMethod.PUT, globalPostAndPutResponseMessage())
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"));
     }
