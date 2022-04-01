@@ -2,6 +2,7 @@ package com.greatmeals.greatmealsapi.api.controller;
 
 import com.greatmeals.greatmealsapi.api.assembler.GrupoInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.GrupoModelAssembler;
+import com.greatmeals.greatmealsapi.api.controller.openapi.GrupoControllerOpenApi;
 import com.greatmeals.greatmealsapi.api.model.GrupoModel;
 import com.greatmeals.greatmealsapi.api.model.input.GrupoInput;
 import com.greatmeals.greatmealsapi.domain.model.Grupo;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 
     @Autowired
     private CadastroGrupoService cadastroGrupoService;
