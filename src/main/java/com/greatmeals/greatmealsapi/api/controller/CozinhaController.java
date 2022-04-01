@@ -4,6 +4,7 @@ import com.greatmeals.greatmealsapi.api.assembler.CozinhaInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.CozinhaModelAssembler;
 import com.greatmeals.greatmealsapi.api.model.CozinhaModel;
 import com.greatmeals.greatmealsapi.api.model.input.CozinhaInput;
+import com.greatmeals.greatmealsapi.api.openapi.controller.CozinhaControllerOpenApi;
 import com.greatmeals.greatmealsapi.domain.model.Cozinha;
 import com.greatmeals.greatmealsapi.domain.repository.CozinhaRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCozinhaService;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CozinhaController {
+public class CozinhaController implements CozinhaControllerOpenApi {
 
     @Autowired
     private CozinhaInputDisassembler cozinhaInputDisassembler;
