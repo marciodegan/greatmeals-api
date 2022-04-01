@@ -3,9 +3,11 @@ package com.greatmeals.greatmealsapi.core.openapi;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Predicates;
 import com.greatmeals.greatmealsapi.api.exceptionhandler.Problem;
+import com.greatmeals.greatmealsapi.core.PageableModelOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -53,6 +55,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.PUT, globalPostAndPutResponseMessage())
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .apiInfo(apiInfo())
                 .tags(
                         new Tag("Cidades", "Gerencia as cidades"),
