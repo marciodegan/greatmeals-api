@@ -2,7 +2,7 @@ package com.greatmeals.greatmealsapi.api.controller;
 
 import com.greatmeals.greatmealsapi.api.assembler.GrupoInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.GrupoModelAssembler;
-import com.greatmeals.greatmealsapi.api.controller.openapi.GrupoControllerOpenApi;
+import com.greatmeals.greatmealsapi.api.openapi.controller.GrupoControllerOpenApi;
 import com.greatmeals.greatmealsapi.api.model.GrupoModel;
 import com.greatmeals.greatmealsapi.api.model.input.GrupoInput;
 import com.greatmeals.greatmealsapi.domain.model.Grupo;

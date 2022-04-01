@@ -1,4 +1,4 @@
-package com.greatmeals.greatmealsapi.api.controller.openapi;
+package com.greatmeals.greatmealsapi.api.openapi.controller;
 
 import com.greatmeals.greatmealsapi.api.exceptionhandler.Problem;
 import com.greatmeals.greatmealsapi.api.model.CidadeModel;

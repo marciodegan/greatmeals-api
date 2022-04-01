@@ -2,7 +2,7 @@ package com.greatmeals.greatmealsapi.api.controller;
 
 import com.greatmeals.greatmealsapi.api.assembler.CidadeInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.CidadeModelAssembler;
-import com.greatmeals.greatmealsapi.api.controller.openapi.CidadeControllerOpenApi;
+import com.greatmeals.greatmealsapi.api.openapi.controller.CidadeControllerOpenApi;
 import com.greatmeals.greatmealsapi.api.model.CidadeModel;
 import com.greatmeals.greatmealsapi.api.model.input.CidadeInput;
 import com.greatmeals.greatmealsapi.domain.exception.EstadoNaoEncontradoException;

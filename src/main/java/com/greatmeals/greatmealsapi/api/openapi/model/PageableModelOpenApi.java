@@ -1,4 +1,4 @@
-package com.greatmeals.greatmealsapi.core;
+package com.greatmeals.greatmealsapi.api.openapi.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
