@@ -1,5 +1,6 @@
 package com.greatmeals.greatmealsapi.api.controller;
 
+import com.greatmeals.greatmealsapi.api.ResourceUriHelper;
 import com.greatmeals.greatmealsapi.api.assembler.CidadeInputDisassembler;
 import com.greatmeals.greatmealsapi.api.assembler.CidadeModelAssembler;
 import com.greatmeals.greatmealsapi.api.openapi.controller.CidadeControllerOpenApi;
@@ -11,11 +12,18 @@ import com.greatmeals.greatmealsapi.domain.model.Cidade;
 import com.greatmeals.greatmealsapi.domain.repository.CidadeRepository;
 import com.greatmeals.greatmealsapi.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -49,7 +57,12 @@ public class CidadeController implements CidadeControllerOpenApi {
     public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
         try {
             Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
-            return cidadeModelAssembler.toModel(cidadeService.salvar(cidade));
+
+            CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidadeService.salvar(cidade));
+
+            ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+
+            return cidadeModel;
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
